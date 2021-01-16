@@ -13,6 +13,7 @@ int main() {
 
     sum=num1+num2;
 
+    cout<<"sum equation:"<<endl;
     cout<<num1<<" + "<<num2<<" = "<<sum<<endl;
 
     return 0;
