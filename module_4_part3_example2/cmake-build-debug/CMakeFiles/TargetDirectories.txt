@@ -1,3 +1,0 @@
-/Users/danrong/Desktop/CLion/module_4_part3_example2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/danrong/Desktop/CLion/module_4_part3_example2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/danrong/Desktop/CLion/module_4_part3_example2/cmake-build-debug/CMakeFiles/module_4_part3_example2.dir

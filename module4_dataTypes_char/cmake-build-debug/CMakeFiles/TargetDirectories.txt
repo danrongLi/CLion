@@ -1,0 +1,3 @@
+/Users/danrong/Desktop/CLion/module4_dataTypes_char/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/danrong/Desktop/CLion/module4_dataTypes_char/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/danrong/Desktop/CLion/module4_dataTypes_char/cmake-build-debug/CMakeFiles/module4_dataTypes_char.dir
