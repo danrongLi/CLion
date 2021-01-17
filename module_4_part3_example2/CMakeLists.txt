@@ -3,4 +3,4 @@ project(module_4_part3_example2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(module_4_part3_example2 main.cpp)
+add_executable(module_4_part3_example2 ../module4_dataTypes_char/main.cpp)
