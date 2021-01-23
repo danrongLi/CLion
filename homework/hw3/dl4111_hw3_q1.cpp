@@ -46,7 +46,8 @@ int main() {
             break;
 
         default:
-            cout<<"Unable to understand whether you have a club card or not. Please try again.";
+            cout<<"Unable to understand whether you have a club card or not."<<endl;
+            cout<<"I guess you might not have the club card. The price without 10% off is shown as below:"<<endl;
             break;
     }
 
