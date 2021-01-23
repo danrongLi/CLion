@@ -23,7 +23,7 @@ int main() {
     cin>>taxRate;
 
     double basePrice = firstItemPrice + secondItemPrice;
-    double priceAfterPromotion = basePrice;
+    double priceAfterPromotion;
 
     if (firstItemPrice <= secondItemPrice){
         priceAfterPromotion = firstItemPrice * PROMOTION_RATE + secondItemPrice;
@@ -32,7 +32,7 @@ int main() {
         priceAfterPromotion = firstItemPrice + secondItemPrice * PROMOTION_RATE;
     }
 
-    double priceAfterCard = priceAfterPromotion;
+    double priceAfterCard;
 
     switch (haveClubCard){
         case 'Y':
@@ -47,7 +47,9 @@ int main() {
 
         default:
             cout<<"Unable to understand whether you have a club card or not."<<endl;
-            cout<<"I guess you might not have the club card. The price without 10% off is shown as below:"<<endl;
+            cout<<"I guess you might not have the club card."<<endl;
+            cout<<"The price without 10% off is shown as below:"<<endl;
+            priceAfterCard = priceAfterPromotion;
             break;
     }
 
