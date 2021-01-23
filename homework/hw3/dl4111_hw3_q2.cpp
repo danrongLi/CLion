@@ -33,9 +33,8 @@ int main() {
         cout<<studentName<<", you are a Senior"<<endl;
     }
     else if (graduationYear == currentYear){
-        cout<<studentName<<", you graduated"<<endl;
+        cout<<studentName<<", you Graduated"<<endl;
     }
-
 
     return 0;
 }
