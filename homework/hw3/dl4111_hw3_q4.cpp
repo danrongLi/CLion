@@ -20,26 +20,52 @@ int main() {
     cout<<"3. Round to the nearest whole number"<<endl;
     cin>>roundingMethod;
 
-    switch (roundingMethod) {
+    if (realNumber>=0){
+        switch (roundingMethod) {
 
-        case FLOOR_ROUND:
-            cout<<int(realNumber)<<endl;
-            break;
-
-        case CEILING_ROUND:
-            cout<<int(realNumber)+1<<endl;
-            break;
-
-        case ROUND:
-            if ((realNumber - int(realNumber)) >= NEAREST_INTEGER_THRESHOLD){
-                cout<<int(realNumber)+1<<endl;
-                break;
-            }
-            else if ((realNumber - int(realNumber)) < NEAREST_INTEGER_THRESHOLD){
+            case FLOOR_ROUND:
                 cout<<int(realNumber)<<endl;
                 break;
-            }
+
+            case CEILING_ROUND:
+                cout<<int(realNumber)+1<<endl;
+                break;
+
+            case ROUND:
+                if ((realNumber - int(realNumber)) >= NEAREST_INTEGER_THRESHOLD){
+                    cout<<int(realNumber)+1<<endl;
+                    break;
+                }
+                else if ((realNumber - int(realNumber)) < NEAREST_INTEGER_THRESHOLD){
+                    cout<<int(realNumber)<<endl;
+                    break;
+                }
+        }
     }
+    else{
+        switch (roundingMethod) {
+
+            case FLOOR_ROUND:
+                cout<<int(realNumber)-1<<endl;
+                break;
+
+            case CEILING_ROUND:
+                cout<<int(realNumber)<<endl;
+                break;
+
+            case ROUND:
+                if ((-realNumber + int(realNumber)) >= NEAREST_INTEGER_THRESHOLD){
+                    cout<<int(realNumber)-1<<endl;
+                    break;
+                }
+                else if ((-realNumber + int(realNumber)) < NEAREST_INTEGER_THRESHOLD){
+                    cout<<int(realNumber)<<endl;
+                    break;
+                }
+        }
+    }
+
+
 
     return 0;
 }
