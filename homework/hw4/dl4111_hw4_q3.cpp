@@ -2,7 +2,7 @@
 //Author: Danrong Li
 //Email Address: dl4111@nyu.edu
 //Assignment Number: 3
-//Description: Program to .
+//Description: Program to convert decimal to binary.
 //Last Change: January 31, 2021
 #include <iostream>
 #include <cmath>
