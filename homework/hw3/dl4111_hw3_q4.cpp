@@ -20,7 +20,11 @@ int main() {
     cout<<"3. Round to the nearest whole number"<<endl;
     cin>>roundingMethod;
 
-    if (realNumber>=0){
+    if(realNumber == int(realNumber)){
+        cout<<int(realNumber)<<endl;
+    }
+
+    else if (realNumber>=0){
         switch (roundingMethod) {
 
             case FLOOR_ROUND:
