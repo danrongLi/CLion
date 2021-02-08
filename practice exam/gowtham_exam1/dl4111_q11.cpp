@@ -8,7 +8,7 @@ int main() {
 
     int n;
 
-    cout<<"Please enter a postive integer: "<<endl;
+    cout<<"Please enter a positive integer: "<<endl;
     cin>>n;
 
     int lineCount;
