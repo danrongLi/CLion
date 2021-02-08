@@ -11,7 +11,7 @@ int main() {
     cout<<"Please enter a postive integer: "<<endl;
     cin>>n;
 
-    int lineCount, xCount, oCount;
+    int lineCount;
     int colCount;
 
     for (lineCount = 1; lineCount <= n; lineCount +=1){
