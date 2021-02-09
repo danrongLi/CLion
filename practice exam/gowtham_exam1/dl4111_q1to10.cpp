@@ -13,7 +13,7 @@
  * b
  *
  * Question 4
- * b
+ * wrong: correct result is ExVy [(x != y) ^ (x < y)]
  *
  * Question 5
  * a
