@@ -23,7 +23,7 @@ int main() {
         powerOf2Index += 1;
     }
 
-    cout<<"The binary representation of "<<decimalInteger<<" is ";
+    int initialBinaryNumber = 0;
 
     int currentPosition;
     int currentNumber = decimalInteger;
@@ -32,14 +32,13 @@ int main() {
         currentPosition = pow(2, powerOf2Index);
         if (currentNumber >= currentPosition){
             currentNumber -= currentPosition;
-            cout<<1;
+            initialBinaryNumber += pow(10, powerOf2Index);
             powerOf2Index -= 1;
         }
         else {
-            cout<<0;
             powerOf2Index -= 1;
         }
     }
-    cout<<"\n";
+    cout<<"The binary representation of "<<decimalInteger<<" is "<<initialBinaryNumber;
     return 0;
 }
