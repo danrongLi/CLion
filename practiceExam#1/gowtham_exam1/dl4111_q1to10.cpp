@@ -13,7 +13,7 @@
  * b
  *
  * Question 4
- * wrong: correct result is ExVy [(x != y) ^ (x < y)]
+ * wrong: correct result is ∃x ∀y ( (x ≠ y) → (x < y) )
  *
  * Question 5
  * a
