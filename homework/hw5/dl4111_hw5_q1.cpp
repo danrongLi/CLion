@@ -10,9 +10,9 @@ int main() {
     cout<<"Please enter a positive integer:"<<endl;
     cin>>n;
 
-    for (n = 1; n <= 10; n += 1){
-        for (newLineCount = n, incrementMultiple = 2; newLineCount <= n * 10;
-            newLineCount = n * incrementMultiple, incrementMultiple += 1){
+    for (int i = 1; i <= n; i += 1){
+        for (newLineCount = i, incrementMultiple = 2; newLineCount <= i * n;
+            newLineCount = i * incrementMultiple, incrementMultiple += 1){
             cout<<newLineCount<<"\t";
         }
         cout<<"\n";
