@@ -42,15 +42,13 @@ int printMonthCalender(int numOfDays, int startingDay){
     }
     cout<<endl;
 
-    int remainDay = (numOfDays-(DAYS_IN_WEEK-startingDay+1))%DAYS_IN_WEEK+1;
-    if (remainDay == 8){
+    int remainDay = (numOfDays-(DAYS_IN_WEEK-startingDay+1))%DAYS_IN_WEEK;
+    if (remainDay == 7){
         return 1;
     }
     else {
         return remainDay;
     }
-    // The returned result is one off from the example returned result in hw pdf
-    // But my current result would also do the work and produce the correct calender output.
 }
 
 bool ifItsLeapYear(int yearInput){
@@ -128,6 +126,6 @@ void printYearCalender(int year, int startingDay){
         // I added this empty line because the Appendix A results
         // indicated the black region before the calender output
         cout<<monthOfYear<<" "<<year<<endl;
-        startingDay = printMonthCalender(numOfDays, startingDay);
+        startingDay = printMonthCalender(numOfDays, startingDay)+1;
     }
 }
