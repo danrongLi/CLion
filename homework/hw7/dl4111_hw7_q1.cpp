@@ -43,12 +43,7 @@ int printMonthCalender(int numOfDays, int startingDay){
     cout<<endl;
 
     int remainDay = (numOfDays-(DAYS_IN_WEEK-startingDay+1))%DAYS_IN_WEEK;
-    if (remainDay == 7){
-        return 1;
-    }
-    else {
-        return remainDay;
-    }
+    return remainDay;
 }
 
 bool ifItsLeapYear(int yearInput){
