@@ -17,6 +17,8 @@ int main() {
 
     cout<<str.find("cd")<<endl;
 
+    cout<<str.find("cd", 3)<<endl;
+
     return 0;
 }
 
