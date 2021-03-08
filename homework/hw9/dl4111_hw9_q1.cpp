@@ -68,7 +68,7 @@ int printCountWords(string line){
                 countWords += 0;
             }
         }
-        else if (i != 0){
+        else if (i > 0){
             if ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] >= 'A') && (line[i-1] <= 'z'))){
                 countWords += 0;
             }
