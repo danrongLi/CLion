@@ -73,10 +73,12 @@ int printCountWords(string line){
             }
         }
         else if (i > 0){
-            if ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] >= 'A') && (line[i-1] <= 'z'))){
+            if ((line[i] == ',' || line[i] == '.' || line[i] == ' ') &&
+                ((line[i-1] >= 'A') && (line[i-1] <= 'z'))){
                 countWords += 0;
             }
-            else if (((line[i] >= 'A') && (line[i] <= 'z')) && (line[i-1] == ',' || line[i-1] == '.' || line[i-1] == ' ')){
+            else if (((line[i] >= 'A') && (line[i] <= 'z')) &&
+                (line[i-1] == ',' || line[i-1] == '.' || line[i-1] == ' ')){
                 countWords += 1;
             }
             else {
