@@ -64,13 +64,15 @@ int printCountWords(string line){
         if ((i==0) && ((line[i] >= 'A') && (line[i] <= 'z'))){
             countWords += 1;
         }
-        else if (((i != 0) && (i != (line.length()-1))) && ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] >= 'A') && (line[i-1] <= 'z')))){
+        else if (((i != 0) && (i != (line.length()-1))) &&
+            ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] >= 'A') && (line[i-1] <= 'z')))){
             countWords += 1;
         }
         else if ((i == 0) && ((line[i] == ',' || line[i] == '.' || line[i] == ' '))){
             countWords += 1;
         }
-        else if (((i != 0) && (i == (line.length()-1))) && ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] <= 'A') || (line[i-1] >= 'z')))){
+        else if (((i != 0) && (i == (line.length()-1))) &&
+            ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] <= 'A') || (line[i-1] >= 'z')))){
             countWords -= 1;
         }
     }
