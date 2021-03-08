@@ -60,19 +60,25 @@ void cleanLine(string& line){
 int printCountWords(string line){
     int countWords = 0;
     for(int i = 0; i < line.length(); i += 1){
-        if ((i==0) && ((line[i] >= 'A') && (line[i] <= 'z'))){
-            countWords += 1;
+        if (i == 0){
+            if (((line[i] >= 'A') && (line[i] <= 'z'))){
+                countWords += 1;
+            }
+            else if ((line[i] == ',' || line[i] == '.' || line[i] == ' ')){
+                countWords += 0;
+            }
         }
-        else if (((i != 0) && (i != (line.length()-1))) &&
-            ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] >= 'A') && (line[i-1] <= 'z')))){
-            countWords += 1;
-        }
-        else if ((i == 0) && ((line[i] == ',' || line[i] == '.' || line[i] == ' '))){
-            countWords += 1;
-        }
-        else if (((i != 0) && (i == (line.length()-1))) &&
-            ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] <= 'A') || (line[i-1] >= 'z')))){
-            countWords -= 1;
+        else if (i != 0){
+            if ((line[i] == ',' || line[i] == '.' || line[i] == ' ') && ((line[i-1] >= 'A') && (line[i-1] <= 'z'))){
+                countWords += 0;
+            }
+            else if (((line[i] >= 'A') && (line[i] <= 'z')) && (line[i-1] == ',' || line[i-1] == '.' || line[i-1] == ' ')){
+                countWords += 1;
+            }
+            else {
+                countWords += 0;
+            }
+
         }
     }
     return countWords;
