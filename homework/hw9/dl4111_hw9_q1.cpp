@@ -7,6 +7,7 @@ const int OFFSET = 'a' - 'A';
 int printCountWords(string line);
 void cleanLine(string& line);
 void buildArrays(int countArr[], char alphaArr[], int arrSize, string line);
+void printResult(int countArr[], char alphaArr[]);
 
 int main() {
 
@@ -25,15 +26,18 @@ int main() {
     char alphaArr[ALPHA_NUM];
 
     buildArrays(countArr, alphaArr, ALPHA_NUM, line);
+    printResult(countArr, alphaArr);
 
+    return 0;
+}
+
+void printResult(int countArr[], char alphaArr[]){
     for (int i = 0; i < ALPHA_NUM; i += 1){
         if (countArr[i] != 0){
             cout<<countArr[i];
             cout<<"\t"<<alphaArr[i]<<endl;
         }
     }
-
-    return 0;
 }
 
 void buildArrays(int countArr[], char alphaArr[], int arrSize, string line){
