@@ -4,12 +4,12 @@ using namespace std;
 
 const int MAX_NUM = 10;
 int* getPosNums1(int* arr, int arrSize, int& outPosArrSize);
-void printResult1(int arrSize, int outPosArr1Size, int * arr1);
 int* getPosNum2(int* arr, int arrSize, int* outPosArrSizePtr);
-void printResult2(int arrSize, int* outPosArrSizePtr, int * arr2);
 void getPosNum3(int* arr, int arrSize, int*& outPosArr, int& outPosArrSize);
-void printResult3(int arrSize, int outPosArrSize, int * arr3);
 void getPosNums4(int* arr, int arrSize, int** outPosArrPtr, int* outPosArrSizePtr);
+void printResult1(int arrSize, int outPosArr1Size, int * arr1);
+void printResult2(int arrSize, int* outPosArrSizePtr, int * arr2);
+void printResult3(int arrSize, int outPosArrSize, int * arr3);
 void printResult4(int arrSize, int* arr4, int outPosArr4Size);
 
 int main() {
