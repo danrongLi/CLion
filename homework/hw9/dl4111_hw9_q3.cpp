@@ -56,11 +56,17 @@ int main() {
 void getPosNums4(int* arr, int arrSize, int** outPosArrPtr, int* outPosArrSizePtr){
     int countPos = 0;
     int* posArr = nullptr;
-    posArr = new int[arrSize];
     for (int i = 0; i < arrSize; i += 1){
         if (arr[i] > 0){
-            posArr[countPos] = arr[i];
             countPos += 1;
+        }
+    }
+    posArr = new int[countPos];
+    int countAgain = 0;
+    for (int i = 0; i < arrSize; i += 1){
+        if (arr[i] > 0){
+            posArr[countAgain] = arr[i];
+            countAgain += 1;
         }
     }
     *outPosArrPtr = posArr;
@@ -70,25 +76,38 @@ void getPosNums4(int* arr, int arrSize, int** outPosArrPtr, int* outPosArrSizePt
 void getPosNum3(int* arr, int arrSize, int*& outPosArr, int& outPosArrSize){
     int countPos = 0;
     int* posArr = nullptr;
-    posArr = new int[arrSize];
     for (int i = 0; i < arrSize; i += 1){
         if (arr[i] > 0){
-            posArr[countPos] = arr[i];
             countPos += 1;
         }
     }
+    posArr = new int[countPos];
+    int countAgain = 0;
+    for (int i = 0; i < arrSize; i += 1){
+        if (arr[i] > 0){
+            posArr[countAgain] = arr[i];
+            countAgain += 1;
+        }
+    }
+
     outPosArr = posArr;
     outPosArrSize = countPos;
 }
 
 int* getPosNum2(int* arr, int arrSize, int* outPosArrSizePtr){
-    int* posArr = nullptr;
     int countPos = 0;
-    posArr = new int[arrSize];
+    int* posArr = nullptr;
     for (int i = 0; i < arrSize; i += 1){
         if (arr[i] > 0){
-            posArr[countPos] = arr[i];
             countPos += 1;
+        }
+    }
+    posArr = new int[countPos];
+    int countAgain = 0;
+    for (int i = 0; i < arrSize; i += 1){
+        if (arr[i] > 0){
+            posArr[countAgain] = arr[i];
+            countAgain += 1;
         }
     }
     *outPosArrSizePtr = countPos;
@@ -96,13 +115,19 @@ int* getPosNum2(int* arr, int arrSize, int* outPosArrSizePtr){
 }
 
 int* getPosNums1(int* arr, int arrSize, int& outPosArrSize){
-    int* posArr = nullptr;
     int countPos = 0;
-    posArr = new int[arrSize];
+    int* posArr = nullptr;
     for (int i = 0; i < arrSize; i += 1){
         if (arr[i] > 0){
-            posArr[countPos] = arr[i];
             countPos += 1;
+        }
+    }
+    posArr = new int[countPos];
+    int countAgain = 0;
+    for (int i = 0; i < arrSize; i += 1){
+        if (arr[i] > 0){
+            posArr[countAgain] = arr[i];
+            countAgain += 1;
         }
     }
     outPosArrSize = countPos;
