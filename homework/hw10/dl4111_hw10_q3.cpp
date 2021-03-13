@@ -7,10 +7,10 @@ int main2();
 int* buildIntArray(int& outArrSize);
 void buildSearchArray(int intArrSize, int searchInt, const int* intArr);
 vector<int> buildVector();
-void searchVector(vector<int> intVector, int searchInt);
+void buildSearchVector(vector<int> intVector, int searchInt);
 
 int main() {
-    main2();
+    main1();
     return 0;
 }
 
@@ -44,11 +44,11 @@ int main2(){
     cout<<"Please enter a number you want to search."<<endl;
     cin>>searchInt;
 
-    searchVector(intVector, searchInt);
+    buildSearchVector(intVector, searchInt);
 
     return 0;
 }
-void searchVector(vector<int> intVector, int searchInt){
+void buildSearchVector(vector<int> intVector, int searchInt){
     vector<int> searchVector;
 
     for (int i = 0; i < intVector.size(); i += 1){
@@ -68,7 +68,6 @@ void searchVector(vector<int> intVector, int searchInt){
 
     }
     cout<<"."<<endl;
-
 }
 
 vector<int> buildVector(){
