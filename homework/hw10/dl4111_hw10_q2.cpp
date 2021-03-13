@@ -20,13 +20,13 @@ int main() {
     cout<<endl;
 
     delete [] missingArr;
-    missingArr = NULL;
+    missingArr = nullptr;
 
     return 0;
 }
 
 int* findMissing(int arr[], int n, int& resArrSize){
-    int* missingArr = NULL;
+    int* missingArr = nullptr;
     int* allArr =  new int[n+1];
     for (int i = 0; i <= n; i += 1){
         allArr[i] = i;
@@ -51,7 +51,7 @@ int* findMissing(int arr[], int n, int& resArrSize){
     }
 
     delete [] allArr;
-    allArr = NULL;
+    allArr = nullptr;
 
     resArrSize = missingCount;
     return missingArr;
