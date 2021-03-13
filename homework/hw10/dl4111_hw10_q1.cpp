@@ -23,13 +23,13 @@ int main() {
     cout<<endl;
 
     delete [] sentenceArr;
-    sentenceArr = NULL;
+    sentenceArr = nullptr;
 
     return 0;
 }
 
 string* createWordsArray(string sentence, int& outWordsArrSize){
-    string* sentenceArr = NULL;
+    string* sentenceArr = nullptr;
     int wordsCount = 0;
 
     if (sentence.find(SPACE) == string::npos){
