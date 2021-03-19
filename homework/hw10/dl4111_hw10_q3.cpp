@@ -50,24 +50,32 @@ int main2(){
 }
 void buildSearchVector(vector<int> intVector, int searchInt){
     vector<int> searchVector;
+    bool searchFound = false;
 
     for (int i = 0; i < intVector.size(); i += 1){
         if (intVector[i] == searchInt){
+            searchFound = true;
             searchVector.push_back(i);
         }
     }
-    cout<<searchInt<<" shows in lines ";
 
-    for (int i = 0; i < searchVector.size(); i += 1){
-        if (i < (searchVector.size()-1)){
-            cout<<searchVector[i]+1<<", ";
-        }
-        else {
-            cout<<searchVector[i]+1;
-        }
-
+    if (!searchFound){
+        cout<<searchInt<<" does not show at all in the sequence."<<endl;
     }
-    cout<<"."<<endl;
+    else {
+        cout<<searchInt<<" shows in lines ";
+
+        for (int i = 0; i < searchVector.size(); i += 1){
+            if (i < (searchVector.size()-1)){
+                cout<<searchVector[i]+1<<", ";
+            }
+            else {
+                cout<<searchVector[i]+1;
+            }
+
+        }
+        cout<<"."<<endl;
+    }
 }
 
 vector<int> buildVector(){
@@ -132,24 +140,31 @@ void buildSearchArray(int intArrSize, int searchInt, const int* intArr){
 
     searchArr = new int[searchCount];
     int arrIndex = 0;
+    bool searchFound = false;
 
     for (int i = 0; i < intArrSize; i += 1){
         if (intArr[i] == searchInt){
+            searchFound = true;
             searchArr[arrIndex] = i;
             arrIndex += 1;
         }
     }
-    cout<<searchInt<<" shows in lines ";
-    for (int i = 0; i < arrIndex; i += 1){
-        if (i < (arrIndex-1)){
-            cout<<searchArr[i]+1<<", ";
-        }
-        else {
-            cout<<searchArr[i]+1;
-        }
-
+    if (!searchFound){
+        cout<<searchInt<<" does not show at all in the sequence."<<endl;
     }
-    cout<<"."<<endl;
+    else {
+        cout<<searchInt<<" shows in lines ";
+        for (int i = 0; i < arrIndex; i += 1){
+            if (i < (arrIndex-1)){
+                cout<<searchArr[i]+1<<", ";
+            }
+            else {
+                cout<<searchArr[i]+1;
+            }
+
+        }
+        cout<<"."<<endl;
+    }
 
     delete [] searchArr;
     searchArr = nullptr;
