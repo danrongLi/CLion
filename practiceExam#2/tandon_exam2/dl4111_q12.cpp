@@ -4,16 +4,17 @@
 using namespace std;
 
 int maxZeroLength(int nums[], int len, int startIdx);
+int maxZeroLength2(int nums[], int len, int startIdx);
 
 int main() {
 
-    int nums[10] = {0,0,0,1,0,0,1,0,0,1};
+    int nums[10] = {0,0,0,0,1,0,1,0,0,1};
 
     int len = 10;
 
     int startIdx = 0;
 
-    int maxNum = maxZeroLength(nums, len, startIdx);
+    int maxNum = maxZeroLength2(nums, len, startIdx);
 
     cout<<maxNum;
 
@@ -61,5 +62,24 @@ int maxZeroLength(int nums[], int len, int startIdx){
         currentMax = std::max(currentMax, previousMax);
         return currentMax;
     }
+
+}
+
+int maxZeroLength2(int nums[], int len, int startIdx){
+    int i = startIdx;
+    int currentMax = 0;
+    bool foundOne = false;
+    for (int index = 0; (index < len) && (!foundOne); index += 1){
+        if (nums[index] == 0){
+            currentMax += 1;
+            i += 1;
+        }
+        else {
+            i += 1;
+            foundOne = true;
+        }
+    }
+    return std::max(currentMax, maxZeroLength(nums,len,i));
+
 
 }
