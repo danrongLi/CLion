@@ -1,8 +1,8 @@
 #include <iostream>
+using namespace std;
+
 
 int* findCommon(int arr1[], int arr2[], int n, int& outArrSize);
-
-using namespace std;
 
 int main() {
 
