@@ -66,20 +66,20 @@ int maxZeroLength(int nums[], int len, int startIdx){
 }
 
 int maxZeroLength2(int nums[], int len, int startIdx){
-    int i = startIdx;
-    int currentMax = 0;
-    bool foundOne = false;
-    for (int index = 0; (index < len) && (!foundOne); index += 1){
-        if (nums[index] == 0){
-            currentMax += 1;
-            i += 1;
-        }
-        else {
-            i += 1;
-            foundOne = true;
-        }
-    }
-    return std::max(currentMax, maxZeroLength(nums,len,i));
 
+    int count = 0;
+    int i = startIdx;
+
+    while (nums[i] != 0 && i < len){
+        i += 1;
+    }
+    while (nums[i] == 0 && i < len){
+        count += 1;
+        i += 1;
+    }
+    if (i >= len){
+        return count;
+    }
+    return std::max(count, maxZeroLength2(nums, len, i));
 
 }
