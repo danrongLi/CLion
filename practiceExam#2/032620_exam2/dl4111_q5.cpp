@@ -6,17 +6,17 @@ void makeDifferenceArray2(int* srtArr1, int n1, int* srtArr2, int n2, int*& outD
 void printArray(int arr[], int arrSize);
 int main() {
 
-    int srtArr2[6] = {1,2,3,5,7,8};
-    int srtArr1[4] = {2,5,6,9};
+    int srtArr1[6] = {1,2,3,5,7,8};
+    int srtArr2[4] = {2,5,6,9};
     int* differenceArr;
     int differenceArrSize;
 
-    makeDifferenceArray2(srtArr1, 4, srtArr2, 6, differenceArr, differenceArrSize);
+    makeDifferenceArray2(srtArr1, 6, srtArr2, 4, differenceArr, differenceArrSize);
     cout<<"srtArr1: ";
-    printArray(srtArr1, 4);
+    printArray(srtArr1, 6);
 
     cout<<"srtArr2: ";
-    printArray(srtArr2, 6);
+    printArray(srtArr2, 4);
 
     cout<<"differenceArr: ";
     printArray(differenceArr, differenceArrSize);
@@ -75,8 +75,8 @@ void makeDifferenceArray2(int* srtArr1, int n1, int* srtArr2, int n2, int*& outD
         logicalSize += 1;
     }
 
-    outDifferenceArr = onlyArr2;
-    outN = currentIndex2;
+    outDifferenceArr = onlyArr1;
+    outN = currentIndex1;
 
 }
 void makeDifferenceArray1(int* srtArr1, int n1, int* srtArr2, int n2, int*& outDifferenceArr, int& outN){
