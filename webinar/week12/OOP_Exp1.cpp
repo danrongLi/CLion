@@ -44,6 +44,7 @@ public:
     ~Thing() { delete val; }
     Thing(const Thing& rhs) : val(new int(*rhs.val)) {}
     Thing& operator=(const Thing& rhs); //must be a member of the class!!!!!
+
     void setVal(int newval) { *val = newval; } //inline function
     Thing operator+(const Thing& rhs) const;
     int getVal()const { return *val; } //const-ify the calling object
