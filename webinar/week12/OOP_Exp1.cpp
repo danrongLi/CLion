@@ -101,6 +101,7 @@ int main() {
 
     cout << *tptr << endl;
     (*tptr).getVal();// same: tptr->getVal();
+    cout<<(*tptr).getVal()<<endl;
 
     /*
     NewThing one;
