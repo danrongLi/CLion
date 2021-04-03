@@ -101,7 +101,7 @@ ostream& operator<<(ostream& outs, const Measurement& rhs){
     outs << rhs.feet << "' " << rhs.getInches() << "\""; //if friend, can use either
     return outs;
 }
-Measurement& Measurement::operator++(){ //preincrement (++x)
+Measurement& Measurement::operator++(){ //pre-increment (++x)
     inches++;
     normalize();
     return *this;
