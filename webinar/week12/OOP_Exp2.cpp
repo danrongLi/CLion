@@ -2,144 +2,144 @@
 #include <string>
 
 using namespace std;
-//
-//class DynArray {
-//    int* data;
-//    int size;
-//    int capacity;
-//
-//    void resize(int newsize);
-//public:
-//    DynArray() :size(0), capacity(5) { data = new int[capacity]; }
-//    ~DynArray() { delete[] data; }
-//    DynArray(const DynArray& rhs) : size(0), capacity(5), data(new int[capacity]) { *this = rhs; } //Copy constructor calls assignment operator
-//    DynArray& operator=(const DynArray& rhs);
-//    void push_back(int newval);
-//    void clear() { size = 0; } //removes all elements, reduce the size to 0
-//    int pop_back(); //removes the last element, reduce size by 1
-//
-//};
-//void DynArray::resize(int newsize) {
-//    int* temp = new int[newsize];
-//    int limit = (size<newsize)?size:newsize; //ternary (or conditional) operator
-//    /*if (size < newsize)
-//        limit = size;
-//    else
-//        limit = newsize;*/
-//    for (int i = 0; i < limit; i++)
-//        temp[i] = data[i];
-//    delete[] data;
-//    data=temp;
-//    if (size < newsize)
-//        capacity = newsize;
-//    else
-//        size = capacity = newsize; //the array was shrunk and now has less items in it
-//}
-//int DynArray::pop_back() {
-//    if (size >= 1)
-//        return data[--size];
-//    else
-//        return INT_MIN; //???? Ask a stupid question, get a stupid answer!
-//}
-//void DynArray::push_back(int newval) {
-//    if (size == capacity)
-//        resize(size * 2+1);
-//    data[size++] = newval;
-//}
-//
-//DynArray& DynArray::operator=(const DynArray& rhs) {
-//    if (this == &rhs) //Test for self-assignment
-//        return *this;
-//    delete[] data;
-//    size = rhs.size;
-//    capacity = rhs.capacity;
-//    data = new int[capacity];
-//    for (int i = 0; i < size; i++)
-//        data[i] = rhs.data[size];
-//    return *this;
-//}
-//
-//
-//class Measurement {
-//    int feet;
-//    int inches;
-//    void normalize();
-//public:
-//    Measurement(int newInches = 0, int newFeet = 0) :feet(newFeet), inches(newInches) { normalize(); }
-//    int getFeet() const { return feet; }
-//    int getInches() const { return inches; }
-//    int getTotalInches()const { return 12 * feet + inches; }
-//    void setFeet(int newFeet) { feet = newFeet; }
-//    void setInches(int newInches);
-//    Measurement operator+(const Measurement& rhs)const;
-//    Measurement& operator-=(const Measurement& rhs);
-//
-//    Measurement operator++(int); //PostIncrement
-//    Measurement& operator++();   //PreIncrement
-//};
-//Measurement Measurement::operator++(int) {
-//    Measurement temp = *this;
-//    inches++;
-//    normalize();
-//    return temp;
-//}
-//Measurement& Measurement::operator++() {
-//    inches++;
-//    normalize();
-//    return *this;
-//}
-//Measurement& Measurement::operator-=(const Measurement& rhs) {
-//    feet -= rhs.feet;
-//    inches -= rhs.feet;
-//    normalize();
-//    return *this;
-//}
-//
-//Measurement operator-(const Measurement& lhs, const Measurement& rhs) {
-//    Measurement temp(lhs.getTotalInches()+rhs.getTotalInches()); //This function doesn't have access to private!!!!
-//    return temp;
-//}
-//Measurement Measurement::operator+(const Measurement& rhs)const {
-//    Measurement temp;
-//    temp.feet = feet + rhs.feet;
-//    temp.inches = inches + rhs.inches;
-//    temp.normalize();
-//    return temp;
-//}
-//
-//void Measurement::normalize() {
-//    if (inches >= 12) {
-//        feet += inches / 12;
-//        inches = inches % 12;
-//    }
-//    else if (inches < 0) { //Debug this, unchecked
-//        feet += inches / 12;
-//        feet--;
-//        inches = 12-(inches % 12);
-//    }
-//}
-//
-//void Measurement::setInches(int newInches) {
-//    inches = newInches;
-//    normalize();
-//}
-//
-//class Person {
-//    string name;
-//    Person* spouse;
-//public:
-//    Person(string newName) : name(newName),spouse(nullptr) {}
-//    string getName() const { return name; }
-//    void changeName(string newname) { name = newname; }
-//    bool marry(Person& other);
-//};
-//
-//bool Person::marry(Person& other) {
-//    if (spouse != nullptr || other.spouse != nullptr)
-//        return false;
-//    spouse = &other;
-//    other.spouse = this; //ok because marry has access to ALL spouses!
-//}
+
+class DynArray {
+    int* data;
+    int size;
+    int capacity;
+
+    void resize(int newsize);
+public:
+    DynArray() :size(0), capacity(5) { data = new int[capacity]; }
+    ~DynArray() { delete[] data; }
+    DynArray(const DynArray& rhs) : size(0), capacity(5), data(new int[capacity]) { *this = rhs; } //Copy constructor calls assignment operator
+    DynArray& operator=(const DynArray& rhs);
+    void push_back(int newval);
+    void clear() { size = 0; } //removes all elements, reduce the size to 0
+    int pop_back(); //removes the last element, reduce size by 1
+
+};
+void DynArray::resize(int newsize) {
+    int* temp = new int[newsize];
+    int limit = (size<newsize)?size:newsize; //ternary (or conditional) operator
+    /*if (size < newsize)
+        limit = size;
+    else
+        limit = newsize;*/
+    for (int i = 0; i < limit; i++)
+        temp[i] = data[i];
+    delete[] data;
+    data=temp;
+    if (size < newsize)
+        capacity = newsize;
+    else
+        size = capacity = newsize; //the array was shrunk and now has less items in it
+}
+int DynArray::pop_back() {
+    if (size >= 1)
+        return data[--size];
+    else
+        return INT_MIN; //???? Ask a stupid question, get a stupid answer!
+}
+void DynArray::push_back(int newval) {
+    if (size == capacity)
+        resize(size * 2+1);
+    data[size++] = newval;
+}
+
+DynArray& DynArray::operator=(const DynArray& rhs) {
+    if (this == &rhs) //Test for self-assignment
+        return *this;
+    delete[] data;
+    size = rhs.size;
+    capacity = rhs.capacity;
+    data = new int[capacity];
+    for (int i = 0; i < size; i++)
+        data[i] = rhs.data[size];
+    return *this;
+}
+
+
+class Measurement {
+    int feet;
+    int inches;
+    void normalize();
+public:
+    Measurement(int newInches = 0, int newFeet = 0) :feet(newFeet), inches(newInches) { normalize(); }
+    int getFeet() const { return feet; }
+    int getInches() const { return inches; }
+    int getTotalInches()const { return 12 * feet + inches; }
+    void setFeet(int newFeet) { feet = newFeet; }
+    void setInches(int newInches);
+    Measurement operator+(const Measurement& rhs)const;
+    Measurement& operator-=(const Measurement& rhs);
+
+    Measurement operator++(int); //PostIncrement
+    Measurement& operator++();   //PreIncrement
+};
+Measurement Measurement::operator++(int) {
+    Measurement temp = *this;
+    inches++;
+    normalize();
+    return temp;
+}
+Measurement& Measurement::operator++() {
+    inches++;
+    normalize();
+    return *this;
+}
+Measurement& Measurement::operator-=(const Measurement& rhs) {
+    feet -= rhs.feet;
+    inches -= rhs.feet;
+    normalize();
+    return *this;
+}
+
+Measurement operator-(const Measurement& lhs, const Measurement& rhs) {
+    Measurement temp(lhs.getTotalInches()+rhs.getTotalInches()); //This function doesn't have access to private!!!!
+    return temp;
+}
+Measurement Measurement::operator+(const Measurement& rhs)const {
+    Measurement temp;
+    temp.feet = feet + rhs.feet;
+    temp.inches = inches + rhs.inches;
+    temp.normalize();
+    return temp;
+}
+
+void Measurement::normalize() {
+    if (inches >= 12) {
+        feet += inches / 12;
+        inches = inches % 12;
+    }
+    else if (inches < 0) { //Debug this, unchecked
+        feet += inches / 12;
+        feet--;
+        inches = 12-(inches % 12);
+    }
+}
+
+void Measurement::setInches(int newInches) {
+    inches = newInches;
+    normalize();
+}
+
+class Person {
+    string name;
+    Person* spouse;
+public:
+    Person(string newName) : name(newName),spouse(nullptr) {}
+    string getName() const { return name; }
+    void changeName(string newname) { name = newname; }
+    bool marry(Person& other);
+};
+
+bool Person::marry(Person& other) {
+    if (spouse != nullptr || other.spouse != nullptr)
+        return false;
+    spouse = &other;
+    other.spouse = this; //ok because marry has access to ALL spouses!
+}
 
 
 class Thing {
@@ -169,28 +169,28 @@ void func4(int x = 100) {
 }
 
 int main() {
-//    Measurement one(5);
-//    Measurement two(20);
-//    Measurement three(two); //Copy-Constructor
-//    Measurement result;
-//    Measurement four = one; //Copy-Constructor
-//    result = one; //Assignment operator
-//
-//    result = one + two;
-//    result = result - two;
-//    result = one + 5; //C++ will construct and object for me!
-//    result = one - 5;
-//    //result = 5 + oneThing; //Doesn't work, because operator+ is a member!
-//    result = 5 - one; //Works because operator- is non-member!
-//    result -= one;
-//
-//    int x = 5;
-//    int y = ++x; // int y = (x.operator++());
-//    x = 5;
-//    int z = x++; //int z = (x.operator++(int));
-//    cout << x; //6
-//    cout << y; //6
-//    cout << z; //5
+    Measurement one(5);
+    Measurement two(20);
+    Measurement three(two); //Copy-Constructor
+    Measurement result;
+    Measurement four = one; //Copy-Constructor
+    result = one; //Assignment operator
+
+    result = one + two;
+    result = result - two;
+    result = one + 5; //C++ will construct and object for me!
+    result = one - 5;
+    //result = 5 + oneThing; //Doesn't work, because operator+ is a member!
+    result = 5 - one; //Works because operator- is non-member!
+    result -= one;
+
+    int x = 5;
+    int y = ++x; // int y = (x.operator++());
+    x = 5;
+    int z = x++; //int z = (x.operator++(int));
+    cout << x; //6
+    cout << y; //6
+    cout << z; //5
 
 
     func4();
