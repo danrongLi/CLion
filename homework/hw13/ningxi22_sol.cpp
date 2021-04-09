@@ -14,12 +14,12 @@ public:
     int getY(){return y;}
     void setX(int newX){x = newX;}
     void setY(int newY){y = newY;}
-    Coordinate(){}
+    Coordinate(){x=0.0; y=0.0;}
     Coordinate(int X, int Y) : x(X), y(Y) {}
 
 };
 
-class Critter{
+class Organism{
 
 private:
     Coordinate location;
@@ -30,46 +30,50 @@ public:
     void setLocation(int newX, int newY);
     int getTurnsSinceReproduced(){return turns_since_reproduced;}
     void setTurnsSinceReproduced(int new_turns_since_reproduced){turns_since_reproduced = new_turns_since_reproduced;}
-//    void move(bool ant_locations[20][20], bool doodle_locations[20][20]);
-//    Critter reproduce(bool ant_locations[20][20], bool doodle_locations[20][20]);
-//    bool die(bool bug_locations[20][20]);
-    Critter(){}
-    Critter(int X, int Y) : location(X,Y), turns_since_reproduced(0){}
-    vector<Coordinate> getSurroundingSquares(Coordinate location){
-        vector<Coordinate> surrounding_squares;
-        surrounding_squares.push_back(Coordinate(location.getX() + 1, location.getY()));
-        surrounding_squares.push_back(Coordinate(location.getX() - 1, location.getY()));
-        surrounding_squares.push_back(Coordinate(location.getX(), location.getY() + 1));
-        surrounding_squares.push_back(Coordinate(location.getX(), location.getY() - 1));
-        return surrounding_squares;
-    }
-    bool isValidCoordinate(Coordinate coor){
-        int x = coor.getX();
-        int y = coor.getY();
-        if (-1 < x && x < 20 && -1 < y && y < 20){
-            return true;
-        }
-        return false;
-    }
-    bool hasBug(Coordinate coor, bool bug_locations[20][20]){
-        return bug_locations[coor.getX()][coor.getY()];
-    }
+    virtual void move(bool ant_locations[20][20], bool doodle_locations[20][20]){cout<<"error"<<endl;}
+//    virtual Organism reproduce(bool ant_locations[20][20], bool doodle_locations[20][20]){}
+    virtual bool die(bool bug_locations[20][20]){}
+    Organism(){location.setX(0.0); location.setY(0.0);}
+    Organism(int X, int Y) : location(X, Y), turns_since_reproduced(0){}
+    vector<Coordinate> getSurroundingSquares(Coordinate location);
+    bool isValidCoordinate(Coordinate coor);
+    bool hasBug(Coordinate coor, bool bug_locations[20][20]);
 };
-void Critter::setLocation(int newX, int newY){
+
+bool Organism::hasBug(Coordinate coor, bool (*bug_locations)[20]) {
+    return bug_locations[coor.getX()][coor.getY()];
+}
+bool Organism::isValidCoordinate(Coordinate coor) {
+    int x = coor.getX();
+    int y = coor.getY();
+    if (-1 < x && x < 20 && -1 < y && y < 20){
+        return true;
+    }
+    return false;
+}
+vector<Coordinate> Organism::getSurroundingSquares(Coordinate location) {
+    vector<Coordinate> surrounding_squares;
+    surrounding_squares.push_back(Coordinate(location.getX() + 1, location.getY()));
+    surrounding_squares.push_back(Coordinate(location.getX() - 1, location.getY()));
+    surrounding_squares.push_back(Coordinate(location.getX(), location.getY() + 1));
+    surrounding_squares.push_back(Coordinate(location.getX(), location.getY() - 1));
+    return surrounding_squares;
+}
+void Organism::setLocation(int newX, int newY){
     location.setX(newX);
     location.setY(newY);
 }
 
 // Ant Class
 
-class Ant : public Critter{
+class Ant : public Organism{
 
 public:
-    Ant(int X, int Y) : Critter(X,Y) {}
-    void move(bool ant_locations[20][20], bool doodle_locations[20][20]);
+    Ant(int X, int Y) : Organism(X, Y) {}
+    virtual void move(bool ant_locations[20][20], bool doodle_locations[20][20]);
+    virtual bool die(bool ant_locations[20][20]);
     Ant(){}
     Ant reproduce(bool ant_locations[20][20], bool doodle_locations[20][20]);
-    bool die(bool ant_locations[20][20]);
 };
 void Ant::move(bool ant_locations[20][20], bool doodle_locations[20][20]){
     srand(time(0));
@@ -107,14 +111,14 @@ bool Ant::die(bool ant_locations[20][20]){
 
 // Doodle Class
 
-class Doodle : public Critter{
+class Doodle : public Organism{
 
 public:
-    Doodle(int X, int Y) : Critter(X,Y), turns_since_ate(0) {}
-    void move(bool ant_locations[20][20], bool doodle_locations[20][20]);
+    Doodle(int X, int Y) : Organism(X, Y), turns_since_ate(0) {}
+    virtual void move(bool ant_locations[20][20], bool doodle_locations[20][20]);
     Doodle(){}
     Doodle reproduce(bool ant_locations[20][20], bool doodle_locations[20][20]);
-    bool die(bool doodle_locations[20][20]);
+    virtual bool die(bool doodle_locations[20][20]);
     int getTurnsSinceAte(){return turns_since_ate;}
     void setTurnsSinceAte(int new_turns_since_ate){turns_since_ate = new_turns_since_ate;}
 
