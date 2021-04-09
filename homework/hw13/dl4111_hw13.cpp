@@ -7,6 +7,9 @@ using namespace std;
 const int SIZE = 20;
 const int BIG_LIMIT = SIZE - 1;
 const int SMALL_LIMIT = 0;
+const int INITIAL_DOODLEBUG = 5;
+const int INITIAL_ANT = 100;
+
 
 class Coordinate{
 public:
@@ -94,7 +97,7 @@ void Organism::setIsValid(int xLo, int yLo) {
 }
 
 
-class Ants: public Organism{
+class Ant: public Organism{
 public:
     virtual void move();
     virtual void checkBreed();
@@ -103,21 +106,21 @@ public:
     bool getWhetherBeingEaten() const{return beingEaten;}
     void setToBeEaten() {beingEaten = true;}
 
-    Ants():Organism(), beingEaten(false){}
+    Ant(): Organism(), beingEaten(false){}
 
 private:
     bool beingEaten;
 };
-void Ants::breed() {
+void Ant::breed() {
 
 }
-void Ants::checkBreed() {
+void Ant::checkBreed() {
     if (getDaysSurvived() == 3){
         setToBreed();
         setDaysSurvived(0);
     }
 }
-void Ants::move() {
+void Ant::move() {
     srand(time(0));
     int temp = rand()%4+1;
     int newX = getCurrentLocation().getXLocation();
@@ -261,11 +264,51 @@ void DoodleBug::checkBreed() {
 
 
 int main(){
-    DoodleBug bug1;
     vector<vector<Organism*>> world (SIZE, vector<Organism*>(SIZE, nullptr));
-    for (int i = 0; i < SIZE; i += 1){
-        for (int j = 0; j < SIZE; j += 1){
-            world[i][j] = &bug1;
+    bool reachedDoodlebugNum = false;
+    bool reachedAntNum = false;
+    int doodlebugNum = 0;
+    int antNum = 0;
+    while (!reachedDoodlebugNum){
+        if (doodlebugNum >= INITIAL_DOODLEBUG){
+            reachedDoodlebugNum = true;
+        }
+        srand(time(0));
+        int x = rand()%SIZE;
+        int y = rand()%SIZE;
+        if (world[y][x] == nullptr){
+            world[y][x] = new DoodleBug();
+            doodlebugNum += 1;
+            world[y][x]->setToHasDoodlebug();
+        }
+
+    }
+    while (!reachedAntNum){
+        if (antNum >= INITIAL_ANT){
+            reachedAntNum = true;
+        }
+        srand(time(0));
+        int x = rand()%SIZE;
+        int y = rand()%SIZE;
+        if (world[y][x] == nullptr){
+            world[y][x] = new Ant();
+            antNum += 1;
+            world[y][x]->setToHasAnt();
         }
     }
+
+    int j = 0;
+    for (int i = 0; i < SIZE; i += 1){
+        if (world[j][i]->getWhetherHasAnts()){
+            cout<<"O ";
+        }
+        else if (world[j][i]->getWhetherHasDoodlebug()){
+            cout<<"X ";
+        }
+        else {
+            cout<<"- ";
+        }
+    }
+    cout<<endl;
+    j += 1;
 }
