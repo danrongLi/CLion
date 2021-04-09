@@ -31,7 +31,7 @@ public:
     int getTurnsSinceReproduced(){return turns_since_reproduced;}
     void setTurnsSinceReproduced(int new_turns_since_reproduced){turns_since_reproduced = new_turns_since_reproduced;}
     virtual void move(bool ant_locations[20][20], bool doodle_locations[20][20]){cout<<"error"<<endl;}
-//    virtual Organism reproduce(bool ant_locations[20][20], bool doodle_locations[20][20]){}
+    Organism reproduce(bool ant_locations[20][20], bool doodle_locations[20][20]){}
     virtual bool die(bool bug_locations[20][20]){}
     Organism(){location.setX(0.0); location.setY(0.0);}
     Organism(int X, int Y) : location(X, Y), turns_since_reproduced(0){}
