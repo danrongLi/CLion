@@ -52,7 +52,7 @@ public:
     void setCurrentLocation(int xLo, int yLo){Coordinate(xLo, yLo);}
     int getDaysSurvived() const {return daysSurvived;}
     void setDaysSurvived(int days) {daysSurvived = days;}
-    bool getWhetherReayToBreed() const{return readyToBreed;}
+    bool getWhetherReadyToBreed() const{return readyToBreed;}
     void setToBreed() {readyToBreed = true;}
 
 
@@ -66,11 +66,17 @@ public:
     void setToHasAnt() {hasAnt = true;}
     bool getWhetherValid() const{return isValidCoordinate;}
     void setIsValid(int xLo, int yLo);
+    void setDaysSinceBreed(int days){daysSinceBreed = days;}
+    int getDaysSinceBreed() const{return daysSinceBreed;}
 
+
+    Organism():currentLocation(), daysSurvived(0), readyToBreed(false),
+                daysSinceBreed(0), hasDoodlebug(false), hasAnt(false), isValidCoordinate(true){}
 private:
     Coordinate currentLocation;
     int daysSurvived;
     bool readyToBreed;
+    int daysSinceBreed;
 
 
     bool hasDoodlebug;
@@ -96,12 +102,11 @@ public:
 
     bool getWhetherBeingEaten() const{return beingEaten;}
     void setToBeEaten() {beingEaten = true;}
-    int getDaysSinceBreed() const {return daysSinceBreed;}
-    void setDaysSinceBreed(int days){daysSinceBreed = days;}
+
+    Ants():Organism(), beingEaten(false){}
 
 private:
     bool beingEaten;
-    int daysSinceBreed;
 };
 void Ants::breed() {
 
@@ -150,16 +155,65 @@ public:
     void setToDeath();
     bool getWhetherDead() const {return starvedToDeath;}
     bool getWhetherJustAte() const {return justAte;}
-    int getDaysSinceBreed() const {return daysSinceBreed;}
-    void setDaysSinceBreed(int days) {daysSinceBreed = days;}
+    void setJustAte();
+
+    DoodleBug():Organism(), justAte(false), starvedToDeath(false), daysSinceLastEat(0){}
 
 private:
     bool justAte;
     bool starvedToDeath;
-    int daysSinceAte;
-    int daysSinceBreed;
+    int daysSinceLastEat;
 
 };
+void DoodleBug::setJustAte() {
+    int xLo = getCurrentLocation().getXLocation();
+    int yLo = getCurrentLocation().getYLocation();
+
+    setIsValid(xLo+1, yLo);
+    if (getWhetherValid() && getWhetherHasAnts()){
+        setCurrentLocation(xLo+1, yLo);
+        setToHasDoodlebug();
+        justAte = true;
+        daysSinceLastEat = 0;
+        return;
+    }
+    else {
+        setIsValid(xLo-1, yLo);
+        if (getWhetherValid() && getWhetherHasAnts()){
+            setCurrentLocation(xLo-1, yLo);
+            setToHasDoodlebug();
+            justAte = true;
+            daysSinceLastEat = 0;
+            return;
+        }
+        else {
+            setIsValid(xLo, yLo+1);
+            if (getWhetherValid() && getWhetherHasAnts()){
+                setCurrentLocation(xLo, yLo+1);
+                setToHasDoodlebug();
+                justAte = true;
+                daysSinceLastEat = 0;
+                return;
+            }
+            else {
+                setIsValid(xLo, yLo-1);
+                if (getWhetherValid() && getWhetherHasAnts()){
+                    setCurrentLocation(xLo, yLo-1);
+                    setToHasDoodlebug();
+                    justAte = true;
+                    daysSinceLastEat = 0;
+                    return;
+                }
+                else {
+                    justAte = false;
+                    daysSinceLastEat += 1;
+                    return;
+                }
+            }
+        }
+    }
+
+}
 void DoodleBug::breed() {
 
 }
@@ -193,7 +247,7 @@ void DoodleBug::move() {
     setDaysSurvived(days);
 }
 void DoodleBug::setToDeath() {
-    if (daysSinceAte == 3 && justAte == false){
+    if (daysSinceLastEat == 3 && justAte == false){
         starvedToDeath = true;
     }
 }
