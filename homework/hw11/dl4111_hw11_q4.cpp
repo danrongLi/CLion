@@ -2,11 +2,12 @@
 using namespace std;
 
 int lowestCost(int arr[], int arrSize);
+int getSmaller(int x, int y);
 
 int main() {
 
-    int arr[10] = {0,3,80,6,57,10};
-    int arrSize = 6;
+    int arr[10] = {0, 56, 55, 54, 53, 52, 51, 50};
+    int arrSize = 8;
 
     int lowCost = lowestCost(arr, arrSize);
     cout<<"The lowest cost is: "<<lowCost<<endl;
@@ -14,23 +15,20 @@ int main() {
     return 0;
 }
 
-int lowestCost(int arr[], int arrSize){
-    int currentLowest;
-    if (arrSize == 1){
-        return arr[0];
+int getSmaller(int x, int y){
+    if (x < y){
+        return x;
     }
-    if (arrSize == 2){
-        return arr[1];
+    else {
+        return y;
+    }
+}
+
+int lowestCost(int arr[], int arrSize){
+
+    if (arrSize <= 3){
+        return arr[arrSize-1];
     }
 
-    else {
-        if (arr[arrSize-1] < arr[arrSize-2]){
-            currentLowest = lowestCost(arr, arrSize-2);
-        }
-        else {
-            currentLowest = lowestCost(arr, arrSize-1);
-        }
-        currentLowest += arr[arrSize-1];
-        return currentLowest;
-    }
+    return getSmaller(lowestCost(arr, arrSize-1), lowestCost(arr, arrSize-2)) + arr[arrSize-1];
 }
