@@ -2,281 +2,173 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include <string>
 using namespace std;
 
 const int SIZE = 20;
-const int SMALL_IDX = 0;
-const int BIG_IDX = SIZE - 1;
-const int INITIAL_ANT = 100;
-const int INITIAL_DOODLE = 5;
+const int SMALL_INDEX = 0;
+const int BIG_INDEX = 19;
+const int ANT_NUM = 100;
+const int DOODLEBUG_NUM = 5;
 
-class Point{
+class Coordinate{
 public:
-    Point():x(0),y(0),ifValid(true), ifOccupied(false), whetherAnt(false){}
-    Point(int newX, int newY): x(newX), y(newY), ifValid(true), ifOccupied(false), whetherAnt(false){}
+    Coordinate():xLo(0), yLo(0), isValid(true){}
+    Coordinate(int x, int y): xLo(x), yLo(y), isValid(false){}
 
-    int getX() const {return x;}
-    int getY() const {return y;}
-    bool getIfValid() const {return ifValid;};
-    bool getIfOccupied() const {return ifOccupied;}
-    bool getWhetherAnt() const {return whetherAnt;}
-
-    void setX(int newX){x = newX;}
-    void setY(int newY){y = newY;}
-    void setIfValid();
-    void setToOccupied(){ifOccupied = true;} //call to make it occupied
-    void setToHaveAnt(){whetherAnt = true;} //call to make it ANT
-
+    int getXLo() const {return xLo;}
+    int getYLo() const {return yLo;}
+    bool getWhetherValid() const {return isValid;}
+    void setWhetherValid();
+    void setXLo(int x);
+    void setYLo(int y);
 
 private:
-    int x;
-    int y;
-    bool ifValid;
-    bool ifOccupied;
-    bool whetherAnt;
+    int xLo;
+    int yLo;
+    bool isValid;
 };
-void Point::setIfValid() {
-    if (x <= BIG_IDX && x >= SMALL_IDX && y <= BIG_IDX && y >= SMALL_IDX && (!ifOccupied)){
-        ifValid = true;
+void Coordinate::setWhetherValid() {
+    int x = getXLo();
+    int y = getYLo();
+    if (x <= BIG_INDEX && x >= SMALL_INDEX && y <= BIG_INDEX && y >= SMALL_INDEX){
+        isValid = true;
     }
     else {
-        ifValid = false;
+        isValid = false;
     }
 }
-
+void Coordinate::setXLo(int x) {
+    xLo = x;
+}
+void Coordinate::setYLo(int y) {
+    yLo = y;
+}
 
 class Organism{
 public:
-    virtual void move() = 0;
-    virtual ~Organism() = default;
-    Organism():location(), daysSurvived(0), daysSinceLastBreed(0), readyToBreed(false), ifDead(false){}
-    Organism(int x, int y): location(x,y),daysSurvived(0), daysSinceLastBreed(0), readyToBreed(false), ifDead(false){}
+    Organism():daysSurvived(0), readyToBreed(false), daysSinceLastBreed(0), isDead(false), currentLocation(), typeOrganism('n'){}
+    Organism(int x, int y): currentLocation(x,y),daysSurvived(0), readyToBreed(false), daysSinceLastBreed(0), isDead(false), typeOrganism('n'){}
 
-    Point getLocation() const {return location;}
-    void setLocation(int x, int y){location.setX(x); location.setY(y);}
+    virtual void move(){}
+    virtual void reproduce(){}
+
+    Coordinate getCurrentLo() const {return currentLocation;}
     int getDaysSurvived() const {return daysSurvived;}
-    int getDaysSinceLastBreed() const {return daysSinceLastBreed;}
     bool getWhetherReadyBreed() const {return readyToBreed;}
-    bool getIfDead() const {return ifDead;}
-    void setDaysSurvived(int days) {daysSurvived = days;}
-    void setDaysSinceLastBreed(int days){daysSinceLastBreed = days;}
+    int getDaysSinceLastBreed() const {return daysSinceLastBreed;}
+    bool getWhetherDead() const {return isDead;}
+    char getOrganismType() const {return typeOrganism;}
+
+    void setCurrentLocation(int x, int y);
+    void setDaysSurvived(int days);
+    void setDaysSinceLastBreed(int days);
+    void setToDead(){isDead = true;}
     void setToReady(){readyToBreed = true;}
-    void setToDead() {ifDead = true;}
-
-    void display(){cout<<getType()<<" ";}
-    char getType() const {return type;}
-    void setType(char newType) {type = newType;}
-
-    Point getNextLocation() const{return nextLocation;}
-    void setNextLocation();
+    void setOrganismType(char input){typeOrganism = input;}
 
 private:
-    Point location;
+    Coordinate currentLocation;
     int daysSurvived;
-    int daysSinceLastBreed;
     bool readyToBreed;
-    bool ifDead;
-    char type;
-    Point nextLocation;
+    int daysSinceLastBreed;
+    bool isDead;
+    char typeOrganism;
+
 };
-void Organism::setNextLocation() {
-    int currentX = location.getX();
-    int currentY = location.getY();
-    Point up = Point(currentX, currentY+1);
-    Point down = Point(currentX, currentY-1);
-    Point left = Point(currentX-1, currentY);
-    Point right = Point(currentX+1, currentY);
-    up.setIfValid();
-    down.setIfValid();
-    left.setIfValid();
-    right.setIfValid();
-
-    if (type == 'X'){
-        if (up.getIfValid() && up.getWhetherAnt()){
-            nextLocation.setX(currentX);
-            nextLocation.setY(currentY+1);
-//            location.setToOccupied();
-        }
-        else if (down.getIfValid() && down.getWhetherAnt()){
-            nextLocation.setX(currentX);
-            nextLocation.setY(currentY-1);
-//            location.setToOccupied();
-        }
-        else if (left.getIfValid() && left.getWhetherAnt()){
-            nextLocation.setX(currentX-1);
-            nextLocation.setY(currentY);
-//            location.setToOccupied();
-        }
-        else if (right.getIfValid() && right.getWhetherAnt()){
-            nextLocation.setX(currentX+1);
-            nextLocation.setY(currentY);
-//            location.setToOccupied();
-        }
-        else {
-            srand(time(0));
-            int choice = rand()%4+1;
-            if (choice == 1){
-                if (up.getIfValid()){
-                    nextLocation.setY(currentY+1);
-//                    location.setToOccupied();
-                }
-            }
-            else if (choice == 2){
-                if (down.getIfValid()){
-                    nextLocation.setY(currentY-1);
-//                    location.setToOccupied();
-                }
-            }
-            else if (choice == 3){
-
-                if (left.getIfValid()){
-                    nextLocation.setX(currentX-1);
-//                    location.setToOccupied();
-                }
-            }
-            else if (choice == 4){
-
-                if (right.getIfValid()){
-                    nextLocation.setX(currentX+1);
-//                    location.setToOccupied();
-                }
-            }
-            else {
-                nextLocation.setX(currentX);
-                nextLocation.setY(currentY);
-            }
-        }
-    }
-    else if (type == 'O'){
-        srand(time(0));
-        int choice = rand()%4+1;
-        if (choice == 1){
-
-            if (up.getIfValid()){
-                nextLocation.setY(currentY+1);
-//            location.setToOccupied();
-//            if (type == 'O'){
-//                location.setToHaveAnt();
-//            }
-            }
-        }
-        else if (choice == 2){
-
-            if (down.getIfValid()){
-                nextLocation.setY(currentY-1);
-//            location.setToOccupied();
-//            if (type == 'O'){
-//                location.setToHaveAnt();
-//            }
-            }
-        }
-        else if (choice == 3){
-
-            if (left.getIfValid()){
-                nextLocation.setX(currentX-1);
-//            location.setToOccupied();
-//            if (type == 'O'){
-//                location.setToHaveAnt();
-//            }
-            }
-        }
-        else if (choice == 4){
-
-            if (right.getIfValid()){
-                nextLocation.setX(currentX+1);
-//            location.setToOccupied();
-//            if (type == 'O'){
-//                location.setToHaveAnt();
-//            }
-            }
-        }
-        else {
-            nextLocation.setX(currentX);
-            nextLocation.setY(currentY);
-        }
-    }
-    else {
-        cout<<"wrong type somehow!"<<endl;
-        exit(1);
-    }
-
-
+void Organism::setDaysSurvived(int days) {
+    daysSurvived = days;
 }
+void Organism::setDaysSinceLastBreed(int days) {
+    daysSinceLastBreed = days;
+}
+void Organism::setCurrentLocation(int x, int y) {
+    currentLocation.setXLo(x);
+    currentLocation.setYLo(y);
+}
+
 class Ant: public Organism{
 public:
-    Ant():Organism(){setType('O');}
-    Ant(int x, int y):Organism(x,y){setType('O');}
+    Ant(int x, int y): Organism(x, y){setOrganismType('O');}
+    Ant(): Organism(){setOrganismType('O');}
 
     virtual void move();
-private:
+    virtual void reproduce();
 
+private:
 };
 void Ant::move() {
-    Point next = getNextLocation();
+    srand(time(0));
+    int choice = rand()%4+1;
+    int x = getCurrentLo().getXLo();
+    int y =  getCurrentLo().getYLo();
+    Coordinate up = Coordinate(x, y+1);
+    Coordinate down = Coordinate(x, y-1);
+    Coordinate left = Coordinate(x-1, y);
+    Coordinate right = Coordinate(x+1, y);
+    up.setWhetherValid();
+    down.setWhetherValid();
+    left.setWhetherValid();
+    right.setWhetherValid();
+    if (choice == 1 && up.getWhetherValid()){
+        setCurrentLocation(x,y+1);
+    }
+    else if (choice == 2 && down.getWhetherValid()){
+        setCurrentLocation(x, y-1);
+    }
+    else if (choice == 3 && left.getWhetherValid()){
+        setCurrentLocation(x-1, y);
+    }
+    else if (choice == 4 && right.getWhetherValid()){
+        setCurrentLocation(x+1, y);
+    }
     int currentSurvived = getDaysSurvived();
-    int getBreed = getDaysSinceLastBreed();
-//    more to come..
+    int currentBreed = getDaysSinceLastBreed();
+    setDaysSurvived(currentSurvived+1);
+    setDaysSinceLastBreed(currentBreed+1);
+    if (getDaysSurvived() >= 3 && getDaysSinceLastBreed() == 3){
+        setToReady();
+        setDaysSinceLastBreed(0);
+    }
 }
 
-class Doodlebug : public Organism{
+void Ant::reproduce() {
+//    bool whetherReady = getWhetherReadyBreed();
+//    if (whetherReady){
+//        srand(time(0));
+//        int x = rand()%SIZE;
+//        int y = rand()%SIZE;
+//        Coordinate newAnt = Coordinate(x,y);
+//        newAnt.setWhetherValid();
+//
+//    }
+}
+
+class Doodlebug: public Organism{
 public:
-    Doodlebug():Organism(), whetherJustAte(false){setType('X');}
-    Doodlebug(int x, int y):Organism(x,y), whetherJustAte(false){setType('X');}
+    Doodlebug(int x, int y):Organism(x,y), daysSinceLastAte(0), justAte(false){setOrganismType('X');}
+    Doodlebug():Organism(), daysSinceLastAte(0), justAte(false){setOrganismType('X');}
+
     virtual void move();
+    virtual void reproduce();
+
+    int getDaysSinceLastAte() const{return daysSinceLastAte;}
+    bool getWhetherJustAte() const{return justAte;}
+    void setDaysSinceLastAte(int days){daysSinceLastAte = days;}
+    void setJustAte(){justAte=true;}
+
 private:
-    bool whetherJustAte;
+    int daysSinceLastAte;
+    bool justAte;
 };
 void Doodlebug::move() {
 
 }
+void Doodlebug::reproduce() {
+
+}
 
 int main(){
-    srand(time(0));
-    Organism* world[20][20];
-    for (int i = 0; i < SIZE; i += 1){
-        for (int j = 0; j < SIZE; j += 1){
-            world[i][j] = nullptr;
-        }
-    }
-    int initialDoodle = 0;
-    int initialAnt = 0;
-    while (initialDoodle < INITIAL_DOODLE){
-        int x = rand()%SIZE;
-        int y = rand()%SIZE;
-        Doodlebug tempDoodle(x,y);
-        if (world[x][y] == nullptr){
-            tempDoodle.getLocation().setToOccupied();
-            world[x][y] = &tempDoodle;
-            initialDoodle += 1;
-        }
-    }
-    while (initialAnt < INITIAL_ANT){
-    int x = rand()%SIZE;
-    int y = rand()%SIZE;
-    Ant tempAnt(x,y);
-    if (world[x][y] == nullptr){
-        tempAnt.getLocation().setToOccupied();
-        tempAnt.getLocation().setToHaveAnt();
-        world[x][y] = &tempAnt;
-        initialAnt += 1;
-    }
-}
-    cout<<"********** Game Begin **********"<<endl<<endl;
-    cout<<"World Initialization with Ant# = "<<INITIAL_ANT<<" Doodlebug# = "<<INITIAL_DOODLE<<endl<<endl;
-    for (int i = 0; i < SIZE; i += 1){
-        for (int j = 0; j < SIZE; j += 1){
-            if (world[i][j] != nullptr){
-                cout<<world[i][j]->getType()<<" ";
-            }
-            else {
-                cout<<"- ";
-            }
-        }
-        cout<<endl;
-    }
 
 
-
-
-    return 0;
 }
