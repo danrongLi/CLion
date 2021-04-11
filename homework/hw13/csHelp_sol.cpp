@@ -21,9 +21,6 @@ class Doodlebug;
 class Ant;
 
 class Garden{
-    friend class Organism;
-    friend class Doodlebug;
-    friend class Ant;
 public:
     Garden();
     ~Garden();
@@ -32,6 +29,10 @@ public:
     void setAt(int x, int y, Organism *org);
     void Display();
     void SimulateOneStep();
+
+    friend class Organism;
+    friend class Doodlebug;
+    friend class Ant;
 
 private:
     Organism* grid[GARDENSIZE][GARDENSIZE];
