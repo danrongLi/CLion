@@ -326,19 +326,19 @@ void Doodlebug::breed(){
     if(breedTicks == DOODLEBREED){
         breedTicks = 0;
         if((y>0) && (garden->getAt(x, y-1) == nullptr)){
-            Doodlebug * newDoodle = new Doodlebug(garden, x, y-1);
+            Organism * newDoodle = new Doodlebug(garden, x, y-1);
         }else if ((y<GARDENSIZE -1) && (garden->getAt(x, y+1) == nullptr)){
-            Doodlebug *newDoodle = new Doodlebug(garden,x,y+1);
+            Organism *newDoodle = new Doodlebug(garden,x,y+1);
         }else if((x>0) && (garden->getAt(x-1, y) == nullptr)){
-            Doodlebug *newDoodle = new Doodlebug(garden,x-1,y);
+            Organism *newDoodle = new Doodlebug(garden,x-1,y);
         }else{
-            Doodlebug *newDoodle = new Doodlebug(garden, x+1, y);
+            Organism *newDoodle = new Doodlebug(garden, x+1, y);
         }
     }
 }
 
 bool Doodlebug::starve(){
-    return (starveTicks > DOODLESTARVE) ? true : false;
+    return (starveTicks > DOODLESTARVE);
 }
 
 int main() {
@@ -355,7 +355,7 @@ int main() {
 
         if(g.getAt(x, y) == nullptr){
             antCount++;
-            Ant *a1 = new Ant(&g, x, y);
+            Organism *a1 = new Ant(&g, x, y);
         }
     }
 
@@ -365,7 +365,7 @@ int main() {
 
         if(g.getAt(x, y) == nullptr){
             doodleCount++;
-            Doodlebug *d1 = new Doodlebug(&g, x, y);
+            Organism *d1 = new Doodlebug(&g, x, y);
         }
     }
 

@@ -17,3 +17,17 @@ const int ANT_BREED = 3;
 const int DOODLE_BREED = 8;
 const int DOODLE_DIE = 3;
 
+class Organism;
+class Ant;
+class Doodlebug;
+
+class EcoSystem{
+public:
+    friend class Organism;
+    friend class Ant;
+    friend class Doodlebug;
+
+private:
+    Organism* system[SIZE][SIZE];
+};
+
