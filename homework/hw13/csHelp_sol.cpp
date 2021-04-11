@@ -95,11 +95,11 @@ void Garden::Display(){
     for(int j=0; j < GARDENSIZE; j++){
         for(int i=0; i < GARDENSIZE; i++){
             if(grid[i][j] == NULL){
-                cout << ".";
+                cout << "- ";
             }else if(grid[i][j]->getType() == ANT){
-                cout << ANTCHAR;
+                cout << ANTCHAR <<" ";
             }else{
-                cout << BUGCHAR;
+                cout << BUGCHAR <<" ";
             }
         }
         cout << endl;
