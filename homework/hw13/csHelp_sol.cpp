@@ -39,7 +39,6 @@ private:
 };
 
 class Organism{
-    friend class Garden;
 public:
     Organism();
     Organism(Garden *garden, int x, int y);
@@ -49,6 +48,8 @@ public:
     virtual void move() = 0;
     virtual int getType() = 0;
     virtual bool starve() = 0;
+
+    friend class Garden;
 protected:
     int x, y;
     bool moved;
@@ -177,7 +178,6 @@ Organism::~Organism(){}
 
 //Ant class
 class Ant: public Organism{
-    friend class Garden;
 
 public:
     Ant();
@@ -187,6 +187,8 @@ public:
     void move();
     int getType();
     bool starve(){ return false; }
+
+    friend class Garden;
 };
 
 Ant::Ant() : Organism() {}
@@ -240,7 +242,6 @@ void Ant::breed(){
 
 //Doodlebug class
 class Doodlebug : public Organism{
-    friend class Garden;
 public:
     Doodlebug();
     Doodlebug(Garden *garden, int x, int y);
@@ -248,6 +249,7 @@ public:
     void move();
     int getType();
     bool starve();
+    friend class Garden;
 private:
     int starveTicks;
 };
