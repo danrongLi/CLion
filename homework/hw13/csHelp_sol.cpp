@@ -35,7 +35,7 @@ public:
     friend class Ant;
 
 private:
-    Organism* grid[GARDENSIZE][GARDENSIZE];
+    Organism* grid[GARDENSIZE][GARDENSIZE]{};
 };
 
 class Organism{
@@ -53,9 +53,8 @@ public:
 protected:
     int x, y;
     bool moved;
-    int breedTicks;
+    int breedTicks{};
     Garden *garden;
-
 };
 
 Garden::Garden(){
@@ -81,7 +80,7 @@ Organism* Garden::getAt(int x, int y){
     if((x >= 0) && (x < GARDENSIZE) && (y >= 0) && (y < GARDENSIZE)){
         return grid[x][y];
     }
-    return NULL;
+    return nullptr;
 }
 
 void Garden::setAt(int x, int y, Organism *org){
@@ -94,7 +93,7 @@ void Garden::Display(){
     cout << endl << endl;
     for(int j=0; j < GARDENSIZE; j++){
         for(int i=0; i < GARDENSIZE; i++){
-            if(grid[i][j] == NULL){
+            if(grid[i][j] == nullptr){
                 cout << "- ";
             }else if(grid[i][j]->getType() == ANT){
                 cout << ANTCHAR <<" ";
@@ -109,7 +108,7 @@ void Garden::Display(){
 void Garden::SimulateOneStep(){
     for (int i=0; i<GARDENSIZE; i++){
         for(int j=0; j<GARDENSIZE; j++){
-            if (grid[i][j] != NULL){
+            if (grid[i][j] != nullptr){
                 grid[i][j]->moved = false;
             }
         }
@@ -117,7 +116,7 @@ void Garden::SimulateOneStep(){
 
     for(int i=0; i<GARDENSIZE; i++){
         for(int j=0; j<GARDENSIZE; j++){
-            if((grid[i][j] != NULL) && (grid[i][j]->getType() == DOODLEBUG)){
+            if((grid[i][j] != nullptr) && (grid[i][j]->getType() == DOODLEBUG)){
                 if (grid[i][j]->moved == false){
                     grid[i][j]->moved = true;
                     grid[i][j]->move();
@@ -128,7 +127,7 @@ void Garden::SimulateOneStep(){
 
     for(int i=0; i<GARDENSIZE; i++){
         for(int j=0; j<GARDENSIZE; j++){
-            if((grid[i][j] != NULL) && (grid[i][j]->getType() == ANT)){
+            if((grid[i][j] != nullptr) && (grid[i][j]->getType() == ANT)){
                 if (grid[i][j]->moved == false){
                     grid[i][j]->moved = true;
                     grid[i][j]->move();
@@ -139,10 +138,10 @@ void Garden::SimulateOneStep(){
 
     for(int i=0; i<GARDENSIZE; i++){
         for(int j=0; j<GARDENSIZE; j++){
-            if((grid[i][j] != NULL) && (grid[i][j]->getType() == DOODLEBUG)){
+            if((grid[i][j] != nullptr) && (grid[i][j]->getType() == DOODLEBUG)){
                 if (grid[i][j]->starve()){
                     delete (grid[i][j]);
-                    grid[i][j] = NULL;
+                    grid[i][j] = nullptr;
                 }
             }
         }
@@ -150,7 +149,7 @@ void Garden::SimulateOneStep(){
 
     for(int i=0; i<GARDENSIZE; i++){
         for(int j=0; j<GARDENSIZE; j++){
-            if((grid[i][j] != NULL) && (grid[i][j]->moved == true)){
+            if((grid[i][j] != nullptr) && (grid[i][j]->moved == true)){
                 grid[i][j]->breed();
             }
         }
@@ -159,7 +158,7 @@ void Garden::SimulateOneStep(){
 }
 
 Organism::Organism(){
-    garden = NULL;
+    garden = nullptr;
     moved = false;
     breedTicks = 0;
     x = 0;
@@ -174,7 +173,7 @@ Organism::Organism(Garden *grden, int x, int y){
     grden->setAt(x, y, this);
 }
 
-Organism::~Organism(){}
+Organism::~Organism()= default;
 
 //Ant class
 class Ant: public Organism{
@@ -183,10 +182,10 @@ public:
     Ant();
     Ant(Garden *garden, int x, int y);
 
-    void breed();
-    void move();
-    int getType();
-    bool starve(){ return false; }
+    virtual void breed();
+    virtual void move();
+    virtual int getType();
+    virtual bool starve(){ return false; }
 
     friend class Garden;
 };
@@ -197,27 +196,27 @@ void Ant::move(){
     int direction = rand() % 4;
 
     if(direction == 0){
-        if((y > 0) && (garden->getAt(x, y-1) == NULL)){
+        if((y > 0) && (garden->getAt(x, y-1) == nullptr)){
             garden->setAt(x, y-1, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             y--;
         }
     }else if (direction == 1){
-        if((y < GARDENSIZE - 1) && (garden->getAt(x, y+1) == NULL)){
+        if((y < GARDENSIZE - 1) && (garden->getAt(x, y+1) == nullptr)){
             garden->setAt(x, y, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             y++;
         }
     }else if(direction == 2){
-        if ((x > 0) && (garden->getAt(x-1, y) == NULL)){
+        if ((x > 0) && (garden->getAt(x-1, y) == nullptr)){
             garden->setAt(x-1, y, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             x--;
         }
     }else{
-        if((x < GARDENSIZE-1) && (garden->getAt(x+1, y) == NULL)){
+        if((x < GARDENSIZE-1) && (garden->getAt(x+1, y) == nullptr)){
             garden->setAt(x+1, y, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             x++;
         }
     }
@@ -228,13 +227,13 @@ void Ant::breed(){
     breedTicks++;
     if(breedTicks == ANTBREED){
         breedTicks = 0;
-        if((y>0) && (garden->getAt(x, y-1) == NULL)){
+        if((y>0) && (garden->getAt(x, y-1) == nullptr)){
             Ant *newAnt = new Ant(garden, x, y-1);
-        }else if ((y<GARDENSIZE-1) && (garden->getAt(x, y+1) == NULL)){
+        }else if ((y<GARDENSIZE-1) && (garden->getAt(x, y+1) == nullptr)){
             Ant *newAnt = new Ant(garden, x, y+1);
-        }else if((x>0) && (garden->getAt(x-1, y) == NULL)){
+        }else if((x>0) && (garden->getAt(x-1, y) == nullptr)){
             Ant *newAnt = new Ant(garden, x-1, y);
-        }else if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) == NULL)){
+        }else if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) == nullptr)){
             Ant *newAnt = new Ant(garden, x+1, y);
         }
     }
@@ -245,10 +244,11 @@ class Doodlebug : public Organism{
 public:
     Doodlebug();
     Doodlebug(Garden *garden, int x, int y);
-    void breed();
-    void move();
-    int getType();
-    bool starve();
+    virtual void breed();
+    virtual void move();
+    virtual int getType();
+    virtual bool starve();
+
     friend class Garden;
 private:
     int starveTicks;
@@ -258,31 +258,31 @@ Doodlebug::Doodlebug(): Organism() { starveTicks = 0; }
 Doodlebug::Doodlebug(Garden *garden, int x, int y): Organism(garden, x, y) { starveTicks = 0; }
 
 void Doodlebug::move(){
-    if((y>0) && (garden->getAt(x, y-1) != NULL) && (garden->getAt(x, y-1)->getType() == ANT)){
+    if((y>0) && (garden->getAt(x, y-1) != nullptr) && (garden->getAt(x, y-1)->getType() == ANT)){
         delete (garden->grid[x][y-1]);
         garden->grid[x][y-1] = this;
-        garden->setAt(x, y, NULL);
+        garden->setAt(x, y, nullptr);
         starveTicks = 0;
         y--;
         return;
-    }else if((y<GARDENSIZE-1) && (garden->getAt(x, y+1) != NULL) && (garden->getAt(x, y+1)->getType() == ANT)){
+    }else if((y<GARDENSIZE-1) && (garden->getAt(x, y+1) != nullptr) && (garden->getAt(x, y+1)->getType() == ANT)){
         delete (garden->grid[x][y+1]);
         garden->grid[x][y+1] = this;
-        garden->setAt(x, y, NULL);
+        garden->setAt(x, y, nullptr);
         starveTicks = 0;
         y++;
         return;
-    }else if((x>0) && (garden->getAt(x-1, y) != NULL) && (garden->getAt(x-1, y)->getType() == ANT)){
+    }else if((x>0) && (garden->getAt(x-1, y) != nullptr) && (garden->getAt(x-1, y)->getType() == ANT)){
         delete (garden->grid[x-1][y]);
         garden->grid[x-1][y] = this;
-        garden->setAt(x, y, NULL);
+        garden->setAt(x, y, nullptr);
         starveTicks = 0;
         x--;
         return;
-    }else if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) != NULL) && (garden->getAt(x+1, y)->getType() == ANT )){
+    }else if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) != nullptr) && (garden->getAt(x+1, y)->getType() == ANT )){
         delete (garden->grid[x+1][y]);
         garden->grid[x+1][y] = this;
-        garden->setAt(x, y, NULL);
+        garden->setAt(x, y, nullptr);
         starveTicks = 0;
         x++;
         return;
@@ -291,27 +291,27 @@ void Doodlebug::move(){
     int direction = rand() % 4;
 
     if(direction == 0){
-        if((y>0) && (garden->getAt(x, y-1) == NULL)){
+        if((y>0) && (garden->getAt(x, y-1) == nullptr)){
             garden->setAt(x, y-1, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             y--;
         }
     }else if(direction == 1){
-        if((y<GARDENSIZE-1) && (garden->getAt(x, y+1) == NULL)){
+        if((y<GARDENSIZE-1) && (garden->getAt(x, y+1) == nullptr)){
             garden->setAt(x, y+1, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             y++;
         }
     }else if(direction == 2){
-        if((x>0) && (garden->getAt(x-1, y) == NULL)){
+        if((x>0) && (garden->getAt(x-1, y) == nullptr)){
             garden->setAt(x-1, y, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             x--;
         }
     }else{
-        if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) == NULL)){
+        if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) == nullptr)){
             garden->setAt(x+1, y, garden->getAt(x, y));
-            garden->setAt(x, y, NULL);
+            garden->setAt(x, y, nullptr);
             x++;
         }
     }
@@ -325,11 +325,11 @@ void Doodlebug::breed(){
     breedTicks++;
     if(breedTicks == DOODLEBREED){
         breedTicks = 0;
-        if((y>0) && (garden->getAt(x, y-1) == NULL)){
+        if((y>0) && (garden->getAt(x, y-1) == nullptr)){
             Doodlebug * newDoodle = new Doodlebug(garden, x, y-1);
-        }else if ((y<GARDENSIZE -1) && (garden->getAt(x, y+1) == NULL)){
+        }else if ((y<GARDENSIZE -1) && (garden->getAt(x, y+1) == nullptr)){
             Doodlebug *newDoodle = new Doodlebug(garden,x,y+1);
-        }else if((x>0) && (garden->getAt(x-1, y) == NULL)){
+        }else if((x>0) && (garden->getAt(x-1, y) == nullptr)){
             Doodlebug *newDoodle = new Doodlebug(garden,x-1,y);
         }else{
             Doodlebug *newDoodle = new Doodlebug(garden, x+1, y);
@@ -343,7 +343,7 @@ bool Doodlebug::starve(){
 
 int main() {
     string s;
-    srand(time(NULL));
+    srand(time(nullptr));
     Garden g;
 
     int antCount = 0;
@@ -353,7 +353,7 @@ int main() {
         int x = rand() % GARDENSIZE;
         int y = rand() % GARDENSIZE;
 
-        if(g.getAt(x, y) == NULL){
+        if(g.getAt(x, y) == nullptr){
             antCount++;
             Ant *a1 = new Ant(&g, x, y);
         }
@@ -363,7 +363,7 @@ int main() {
         int x = rand() % GARDENSIZE;
         int y = rand() % GARDENSIZE;
 
-        if(g.getAt(x, y) == NULL){
+        if(g.getAt(x, y) == nullptr){
             doodleCount++;
             Doodlebug *d1 = new Doodlebug(&g, x, y);
         }
