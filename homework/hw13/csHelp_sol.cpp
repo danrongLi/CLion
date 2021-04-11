@@ -138,6 +138,14 @@ void Garden::SimulateOneStep(){
 
     for(int i=0; i<GARDENSIZE; i++){
         for(int j=0; j<GARDENSIZE; j++){
+            if((grid[i][j] != nullptr) && (grid[i][j]->moved == true)){
+                grid[i][j]->breed();
+            }
+        }
+    }
+
+    for(int i=0; i<GARDENSIZE; i++){
+        for(int j=0; j<GARDENSIZE; j++){
             if((grid[i][j] != nullptr) && (grid[i][j]->getType() == DOODLEBUG)){
                 if (grid[i][j]->starve()){
                     delete (grid[i][j]);
@@ -147,13 +155,6 @@ void Garden::SimulateOneStep(){
         }
     }
 
-    for(int i=0; i<GARDENSIZE; i++){
-        for(int j=0; j<GARDENSIZE; j++){
-            if((grid[i][j] != nullptr) && (grid[i][j]->moved == true)){
-                grid[i][j]->breed();
-            }
-        }
-    }
 
 }
 
@@ -228,13 +229,13 @@ void Ant::breed(){
     if(breedTicks == ANTBREED){
         breedTicks = 0;
         if((y>0) && (garden->getAt(x, y-1) == nullptr)){
-            Organism *newAnt = new Ant(garden, x, y-1);
+            new Ant(garden, x, y-1);
         }else if ((y<GARDENSIZE-1) && (garden->getAt(x, y+1) == nullptr)){
-            Organism *newAnt = new Ant(garden, x, y+1);
+            new Ant(garden, x, y+1);
         }else if((x>0) && (garden->getAt(x-1, y) == nullptr)){
-            Organism *newAnt = new Ant(garden, x-1, y);
+            new Ant(garden, x-1, y);
         }else if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) == nullptr)){
-            Organism *newAnt = new Ant(garden, x+1, y);
+            new Ant(garden, x+1, y);
         }
     }
 }
@@ -326,13 +327,13 @@ void Doodlebug::breed(){
     if(breedTicks == DOODLEBREED){
         breedTicks = 0;
         if((y>0) && (garden->getAt(x, y-1) == nullptr)){
-            Organism * newDoodle = new Doodlebug(garden, x, y-1);
+            new Doodlebug(garden, x, y-1);
         }else if ((y<GARDENSIZE -1) && (garden->getAt(x, y+1) == nullptr)){
-            Organism *newDoodle = new Doodlebug(garden,x,y+1);
+            new Doodlebug(garden,x,y+1);
         }else if((x>0) && (garden->getAt(x-1, y) == nullptr)){
-            Organism *newDoodle = new Doodlebug(garden,x-1,y);
+            new Doodlebug(garden,x-1,y);
         }else{
-            Organism *newDoodle = new Doodlebug(garden, x+1, y);
+            new Doodlebug(garden, x+1, y);
         }
     }
 }
