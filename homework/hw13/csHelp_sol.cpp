@@ -41,7 +41,7 @@ private:
 class Organism{
 public:
     Organism();
-    Organism(Garden *grden, int x, int y);
+    Organism(Garden *garden, int x, int y);
     virtual ~Organism();
 
     virtual void breed() = 0;
@@ -166,12 +166,12 @@ Organism::Organism(){
     y = 0;
 }
 
-Organism::Organism(Garden *grden, int x, int y){
-    this->garden = grden;
+Organism::Organism(Garden *garden, int x, int y){
+    this->garden = garden;
     moved = false;
     this->x = x;
     this->y = y;
-    grden->setAt(x, y, this);
+    garden->setAt(x, y, this);
 }
 
 Organism::~Organism()= default;
