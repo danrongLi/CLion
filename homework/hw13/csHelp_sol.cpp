@@ -41,7 +41,7 @@ private:
 class Organism{
 public:
     Organism();
-    Organism(Garden *garden, int x, int y);
+    Organism(Garden *grden, int x, int y);
     virtual ~Organism();
 
     virtual void breed() = 0;
@@ -62,7 +62,7 @@ Garden::Garden(){
     int i, j;
     for (i=0; i < GARDENSIZE; i++){
         for (j=0; j < GARDENSIZE; j++){
-            grid[i][j] = NULL;
+            grid[i][j] = nullptr;
         }
     }
 }
@@ -71,7 +71,7 @@ Garden::~Garden(){
     int i, j;
     for (i = 0; i < GARDENSIZE; i++){
         for(j = 0; j < GARDENSIZE; j++){
-            if(grid[i][j] != NULL)
+            if(grid[i][j] != nullptr)
                 delete (grid[i][j]);
         }
     }
