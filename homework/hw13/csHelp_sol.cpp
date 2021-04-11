@@ -228,13 +228,13 @@ void Ant::breed(){
     if(breedTicks == ANTBREED){
         breedTicks = 0;
         if((y>0) && (garden->getAt(x, y-1) == nullptr)){
-            Ant *newAnt = new Ant(garden, x, y-1);
+            Organism *newAnt = new Ant(garden, x, y-1);
         }else if ((y<GARDENSIZE-1) && (garden->getAt(x, y+1) == nullptr)){
-            Ant *newAnt = new Ant(garden, x, y+1);
+            Organism *newAnt = new Ant(garden, x, y+1);
         }else if((x>0) && (garden->getAt(x-1, y) == nullptr)){
-            Ant *newAnt = new Ant(garden, x-1, y);
+            Organism *newAnt = new Ant(garden, x-1, y);
         }else if((x<GARDENSIZE-1) && (garden->getAt(x+1, y) == nullptr)){
-            Ant *newAnt = new Ant(garden, x+1, y);
+            Organism *newAnt = new Ant(garden, x+1, y);
         }
     }
 }
