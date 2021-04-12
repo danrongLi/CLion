@@ -97,14 +97,13 @@ void EcoSystem::display() {
                 cout<<EMPTY_CHAR<<" ";
             }
             else {
-
+                cout<<gridBoard[i][j]->getType();
             }
 
         }
     }
 }
 void EcoSystem::simulateOneTimeStep() {
-    gridBoard[0][0]->move();
 }
 
 class Organism{
@@ -137,7 +136,7 @@ Organism::Organism() {
     daysSinceLastBreed = 0;
     mySystem = nullptr;
 }
-Organism::Organism(EcoSystem *inputSystem, int xLo, int yLo) {
+Organism::Organism(EcoSystem* inputSystem, int xLo, int yLo) {
     x = xLo;
     y = yLo;
     mySystem = inputSystem;
