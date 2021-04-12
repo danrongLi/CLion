@@ -91,10 +91,20 @@ EcoSystem::~EcoSystem() {
     }
 }
 void EcoSystem::display() {
+    for(int i = 0; i < SIZE; i += 1){
+        for (int j = 0; i < SIZE; j += 1){
+            if (gridBoard[i][j] == nullptr){
+                cout<<EMPTY_CHAR<<" ";
+            }
+            else {
 
+            }
+
+        }
+    }
 }
 void EcoSystem::simulateOneTimeStep() {
-
+    gridBoard[0][0]->move();
 }
 
 class Organism{
@@ -130,8 +140,8 @@ Organism::Organism() {
 Organism::Organism(EcoSystem *inputSystem, int xLo, int yLo) {
     x = xLo;
     y = yLo;
-    this->mySystem = inputSystem;
-    this->mySystem->setTheOrganism(x, y, this);
+    mySystem = inputSystem;
+    mySystem->setTheOrganism(x, y, this);
     alreadyMoved = false;
     daysSurvived = 0;
     daysSinceLastBreed = 0;
@@ -205,6 +215,8 @@ public:
     virtual void move();
     virtual char getType() {return DOODLE_CHAR;}
     virtual bool starve() {return daysSinceLastAte >= DOODLE_DIE;}
+
+    friend class EcoSystem;
 
 private:
     int daysSinceLastAte;
