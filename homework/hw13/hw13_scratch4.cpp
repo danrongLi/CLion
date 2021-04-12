@@ -43,6 +43,7 @@ private:
     Organism* gridBoard[SIZE][SIZE]{};
     bool ifValid;
 };
+
 void EcoSystem::checkWhetherValid(int xLo, int yLo) {
     if (xLo >= SMALL_IDX && xLo <= BIG_IDX && yLo >= SMALL_IDX && xLo <= BIG_IDX){
         ifValid = true;
@@ -101,14 +102,14 @@ public:
     friend class EcoSystem;
 
     Organism();
-    virtual ~Organism();
+    virtual ~Organism()= default;
 
     Organism(EcoSystem* inputSystem, int xLo, int yLo);
 
     virtual void move() = 0;
     virtual void breed() = 0;
-    virtual void getType() = 0;
-    virtual void starve() = 0;
+    virtual char getType() = 0;
+    virtual bool starve() = 0;
 
 protected:
     int x;
@@ -130,5 +131,174 @@ Organism::Organism(EcoSystem *inputSystem, int xLo, int yLo) {
     x = xLo;
     y = yLo;
     this->mySystem = inputSystem;
-    inputSystem->setTheOrganism(x, y, this);
+    this->mySystem->setTheOrganism(x, y, this);
+    alreadyMoved = false;
+    daysSurvived = 0;
+    daysSinceLastBreed = 0;
 }
+
+class Ant: public Organism{
+public:
+    friend class EcoSystem;
+    Ant():Organism(){}
+    Ant(EcoSystem* inputSystem, int xLo, int yLo): Organism(inputSystem, xLo, yLo){}
+
+    virtual void move();
+    virtual void breed();
+    virtual char getType() {return ANT_CHAR;}
+    virtual bool starve() {return false;}
+private:
+
+};
+
+void Ant::move() {
+    int choice = rand()%4+1;
+    if (choice == 1 && mySystem->getTheOrganism(x,y+1) == nullptr && (y+1)<=BIG_IDX){
+        mySystem->setTheOrganism(x,y+1,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x,y, nullptr);
+        y += 1;
+    }
+    else if (choice == 2 && mySystem->getTheOrganism(x,y-1) == nullptr && (y-1)>=SMALL_IDX){
+        mySystem->setTheOrganism(x,y-1,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x,y, nullptr);
+        y -= 1;
+    }
+    else if (choice == 3 && mySystem->getTheOrganism(x-1, y) == nullptr && (x-1) >= SMALL_IDX){
+        mySystem->setTheOrganism(x-1,y,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x,y, nullptr);
+        x -= 1;
+    }
+    else if (choice == 4 && mySystem->getTheOrganism(x+1, y) == nullptr && (x+1) <= BIG_IDX){
+        mySystem->setTheOrganism(x+1,y,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x,y, nullptr);
+        x += 1;
+    }
+}
+
+void Ant::breed() {
+    daysSinceLastBreed += 1;
+    daysSurvived += 1;
+    if (daysSinceLastBreed == ANT_BREED){
+        daysSinceLastBreed = 0;
+        int choice =  rand()%4 + 1;
+        if (choice == 1 && mySystem->getTheOrganism(x,y+1) == nullptr && (y+1)<=BIG_IDX){
+            new Ant(mySystem, x, y+1);
+        }
+        else if (choice == 2 && mySystem->getTheOrganism(x,y-1) == nullptr && (y-1)>=SMALL_IDX){
+            new Ant(mySystem, x, y-1);
+        }
+        else if (choice == 3 && mySystem->getTheOrganism(x-1, y) == nullptr && (x-1) >= SMALL_IDX){
+            new Ant(mySystem, x-1, y);
+        }
+        else if (choice == 4 && mySystem->getTheOrganism(x+1, y) == nullptr && (x+1) <= BIG_IDX){
+            new Ant(mySystem, x+1, y);
+        }
+    }
+}
+
+class Doodlebug: public Organism{
+public:
+    Doodlebug():Organism(),daysSinceLastAte(0){}
+    Doodlebug(EcoSystem* mySystem, int xLo, int yLo): Organism(mySystem, xLo, yLo),daysSinceLastAte(0){}
+
+    virtual void breed();
+    virtual void move();
+    virtual char getType() {return DOODLE_CHAR;}
+    virtual bool starve() {return daysSinceLastAte >= DOODLE_DIE;}
+
+private:
+    int daysSinceLastAte;
+};
+
+void Doodlebug::move() {
+    if (mySystem->getTheOrganism(x,y+1) != nullptr && (y+1)<=BIG_IDX){
+        if (mySystem->getTheOrganism(x,y+1)->getType() == ANT_CHAR){
+            mySystem->setTheOrganism(x,y+1,mySystem->getTheOrganism(x,y));
+            mySystem->setTheOrganism(x,y, nullptr);
+            y += 1;
+            daysSinceLastAte = 0;
+            return;
+        }
+    }
+    else if (mySystem->getTheOrganism(x,y-1) != nullptr && (y-1)>=SMALL_IDX){
+        if(mySystem->getTheOrganism(x,y-1)->getType() == ANT_CHAR){
+            mySystem->setTheOrganism(x,y-1,mySystem->getTheOrganism(x,y));
+            mySystem->setTheOrganism(x,y, nullptr);
+            y -= 1;
+            daysSinceLastAte = 0;
+            return;
+        }
+    }
+    else if (mySystem->getTheOrganism(x-1, y) != nullptr && (x-1) >= SMALL_IDX){
+        if (mySystem->getTheOrganism(x-1, y)->getType() == ANT_CHAR){
+            mySystem->setTheOrganism(x-1,y,mySystem->getTheOrganism(x,y));
+            mySystem->setTheOrganism(x,y, nullptr);
+            x -= 1;
+            daysSinceLastAte = 0;
+            return;
+        }
+    }
+    else if (mySystem->getTheOrganism(x+1, y) != nullptr && (x+1) <= BIG_IDX){
+        if (mySystem->getTheOrganism(x+1,y)->getType() == ANT_CHAR){
+            mySystem->setTheOrganism(x+1,y,mySystem->getTheOrganism(x,y));
+            mySystem->setTheOrganism(x,y, nullptr);
+            x += 1;
+            daysSinceLastAte = 0;
+            return;
+        }
+    }
+
+    int choice = rand()%4+1;
+    if (choice == 1 && mySystem->getTheOrganism(x,y+1) == nullptr && (y+1)<=BIG_IDX){
+        mySystem->setTheOrganism(x,y+1,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x,y, nullptr);
+        y += 1;
+        daysSinceLastAte += 1;
+    }
+    else if (choice == 2 && mySystem->getTheOrganism(x,y-1) == nullptr && (y-1)>=SMALL_IDX){
+        mySystem->setTheOrganism(x,y-1,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x,y, nullptr);
+        y -= 1;
+        daysSinceLastAte += 1;
+    }
+    else if (choice == 3 && mySystem->getTheOrganism(x-1, y) == nullptr && (x-1) >= SMALL_IDX){
+        mySystem->setTheOrganism(x-1,y,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x-1,y, nullptr);
+        x -= 1;
+        daysSinceLastAte += 1;
+    }
+    else if (choice == 4 && mySystem->getTheOrganism(x+1, y) == nullptr && (x+1) <= BIG_IDX){
+        mySystem->setTheOrganism(x+1,y,mySystem->getTheOrganism(x,y));
+        mySystem->setTheOrganism(x,y, nullptr);
+        x += 1;
+        daysSinceLastAte += 1;
+    }
+
+}
+
+void Doodlebug::breed() {
+    daysSinceLastBreed += 1;
+    daysSurvived += 1;
+    if (daysSinceLastBreed == DOODLE_BREED){
+        daysSinceLastBreed = 0;
+        int choice =  rand()%4 + 1;
+        if (choice == 1 && mySystem->getTheOrganism(x,y+1) == nullptr && (y+1)<=BIG_IDX){
+            new Doodlebug(mySystem, x, y+1);
+        }
+        else if (choice == 2 && mySystem->getTheOrganism(x,y-1) == nullptr && (y-1)>=SMALL_IDX){
+            new Doodlebug(mySystem, x, y-1);
+        }
+        else if (choice == 3 && mySystem->getTheOrganism(x-1, y) == nullptr && (x-1) >= SMALL_IDX){
+            new Doodlebug(mySystem, x-1, y);
+        }
+        else if (choice == 4 && mySystem->getTheOrganism(x+1, y) == nullptr && (x+1) <= BIG_IDX){
+            new Doodlebug(mySystem, x+1, y);
+        }
+    }
+}
+
+int main(){
+    srand(time(0));
+
+}
+
