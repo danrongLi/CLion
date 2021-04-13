@@ -229,16 +229,16 @@ void Ant::breed() {
     if (daysSinceLastBreed == ANT_BREED){
         daysSinceLastBreed = 0;
         if ((y+1)<=BIG_IDX && mySystem->getTheOrganism(x,y+1) == nullptr){
-            new Ant(mySystem, x, y+1);
+            mySystem->setTheOrganism(x,y+1,new Ant(mySystem,x,y+1));
         }
         else if ( (y-1)>=SMALL_IDX && mySystem->getTheOrganism(x,y-1) == nullptr){
-            new Ant(mySystem, x, y-1);
+            mySystem->setTheOrganism(x,y-1,new Ant(mySystem,x,y-1));
         }
         else if ( (x-1) >= SMALL_IDX && mySystem->getTheOrganism(x-1, y) == nullptr){
-            new Ant(mySystem, x-1, y);
+            mySystem->setTheOrganism(x-1,y,new Ant(mySystem, x-1, y));
         }
         else if ( (x+1) <= BIG_IDX && mySystem->getTheOrganism(x+1, y) == nullptr){
-            new Ant(mySystem, x+1, y);
+            mySystem->setTheOrganism(x+1, y, new Ant(mySystem, x+1, y));
         }
     }
 }
@@ -269,7 +269,6 @@ void Doodlebug::move() {
 
     }
     else if ((y-1)>=SMALL_IDX && mySystem->getTheOrganism(x,y-1) != nullptr && mySystem->getTheOrganism(x,y-1)->getType() == ANT_CHAR){
-
         mySystem->setTheOrganism(x,y-1,mySystem->getTheOrganism(x,y));
         mySystem->setTheOrganism(x,y, nullptr);
         y -= 1;
@@ -327,26 +326,20 @@ void Doodlebug::move() {
 }
 
 void Doodlebug::breed() {
-    cout<<"breeding"<<endl;
     daysSinceLastBreed += 1;
     daysSurvived += 1;
-    cout<<daysSinceLastBreed<<endl;
     if (daysSinceLastBreed == DOODLE_BREED){
         daysSinceLastBreed = 0;
         if ((y+1)<=BIG_IDX && mySystem->getTheOrganism(x,y+1) == nullptr){
-//            new Doodlebug(mySystem, x, y+1);
             mySystem->setTheOrganism(x,y+1,new Doodlebug(mySystem,x,y+1));
         }
         else if ( (y-1)>=SMALL_IDX && mySystem->getTheOrganism(x,y-1) == nullptr){
-//            new Doodlebug(mySystem, x, y-1);
             mySystem->setTheOrganism(x,y-1, new Doodlebug(mySystem, x, y-1));
         }
         else if ((x-1) >= SMALL_IDX && mySystem->getTheOrganism(x-1, y) == nullptr){
-//            new Doodlebug(mySystem, x-1, y);
             mySystem->setTheOrganism(x-1,y, new Doodlebug(mySystem, x-1, y));
         }
         else if ((x+1) <= BIG_IDX && mySystem->getTheOrganism(x+1, y) == nullptr){
-//            new Doodlebug(mySystem, x+1, y);
             mySystem->setTheOrganism(x+1, y, new Doodlebug(mySystem, x+1, y));
         }
     }
