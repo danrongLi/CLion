@@ -162,11 +162,19 @@ void EcoSystem::simulateOneTimeStep() {
     }
     for (int i = 0; i < SIZE; i += 1){
         for (int j = 0; j < SIZE; j += 1){
-            if (gridBoard[i][j] != nullptr){
+            if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == DOODLE_CHAR){
                 gridBoard[i][j]->breed();
             }
         }
     }
+    for (int i = 0; i < SIZE; i += 1){
+        for (int j = 0; j < SIZE; j += 1){
+            if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == ANT_CHAR){
+                gridBoard[i][j]->breed();
+            }
+        }
+    }
+
     for (int i = 0; i < SIZE; i += 1){
         for (int j = 0; j < SIZE; j += 1){
             if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == DOODLE_CHAR){
@@ -380,8 +388,8 @@ int main(){
     cout<<"press Enter key to start or any other key to exit"<<endl;
     while (cin.get() == '\n'){
         mainSystem.display();
-        cout<<"press Enter key to start or any other key to exit"<<endl;
         mainSystem.simulateOneTimeStep();
+        cout<<"press Enter key to start or any other key to exit"<<endl;
     }
 
     return 0;
