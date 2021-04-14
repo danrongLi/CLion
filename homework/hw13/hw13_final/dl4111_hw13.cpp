@@ -155,21 +155,7 @@ void EcoSystem::simulateOneTimeStep() {
     }
     for (int i = 0; i < SIZE; i += 1){
         for (int j = 0; j < SIZE; j += 1){
-            if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == ANT_CHAR && (!gridBoard[i][j]->alreadyMoved)){
-                gridBoard[i][j]->move();
-            }
-        }
-    }
-    for (int i = 0; i < SIZE; i += 1){
-        for (int j = 0; j < SIZE; j += 1){
             if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == DOODLE_CHAR){
-                gridBoard[i][j]->breed();
-            }
-        }
-    }
-    for (int i = 0; i < SIZE; i += 1){
-        for (int j = 0; j < SIZE; j += 1){
-            if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == ANT_CHAR){
                 gridBoard[i][j]->breed();
             }
         }
@@ -185,6 +171,23 @@ void EcoSystem::simulateOneTimeStep() {
             }
         }
     }
+
+    for (int i = 0; i < SIZE; i += 1){
+        for (int j = 0; j < SIZE; j += 1){
+            if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == ANT_CHAR && (!gridBoard[i][j]->alreadyMoved)){
+                gridBoard[i][j]->move();
+            }
+        }
+    }
+
+    for (int i = 0; i < SIZE; i += 1){
+        for (int j = 0; j < SIZE; j += 1){
+            if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == ANT_CHAR){
+                gridBoard[i][j]->breed();
+            }
+        }
+    }
+
 }
 
 
