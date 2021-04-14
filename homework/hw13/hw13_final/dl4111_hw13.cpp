@@ -146,6 +146,7 @@ void EcoSystem::simulateOneTimeStep() {
             }
         }
     }
+
     for(int i = 0; i < SIZE; i += 1){
         for (int j = 0; j < SIZE; j += 1){
             if (gridBoard[i][j] != nullptr && gridBoard[i][j]->getType() == DOODLE_CHAR && (!gridBoard[i][j]->alreadyMoved)){
