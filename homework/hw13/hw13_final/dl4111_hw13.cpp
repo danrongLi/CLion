@@ -187,7 +187,6 @@ void EcoSystem::simulateOneTimeStep() {
             }
         }
     }
-
 }
 
 
