@@ -219,16 +219,16 @@ void LinkedList<T>::removeNode(T node) {
             temp = temp2->next;
             temp2->next = temp->next;
             temp->next->prev = temp2;
-            delete temp;
-            temp = nullptr;
+//            delete temp;
+//            temp = nullptr;
             return;
         }
         temp2 = temp2->next;
     }
     if (temp2->next->data == node){
         temp = temp2->next;
-        delete temp;
-        temp = nullptr;
+//        delete temp;
+//        temp = nullptr;
         temp2->next = nullptr;
         return;
     }
@@ -284,9 +284,6 @@ int main(){
     myList.removeNode(song3);
     cout<<myList<<endl;
 
-    myList.removeNode(song2);
-    cout<<myList<<endl;
-    cout<<myList.size()<<endl;
 
     return 0;
 }

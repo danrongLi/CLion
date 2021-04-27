@@ -31,8 +31,12 @@ template <class T>
 class Node{
 public:
     friend class LList<T>;
-    Node(){data = T(); next = nullptr; prev = nullptr;}
-    Node(const T& newData, Node<T>* newNext, Node<T>* newPrev):data(newData), next(newNext), prev(newPrev) {}
+    Node(){data = nullptr; next = nullptr; prev = nullptr;}
+    explicit Node(T newData){data = newData; next = nullptr; prev = nullptr;}
+
+    T getData() const {return data;}
+    Node<T>* getNext() const {return next;}
+    Node<T>* getPrev() const {return prev;}
 private:
     T data;
     Node<T>* next;
@@ -42,13 +46,123 @@ private:
 template <class T>
 class LList{
 public:
-    LList(){head = new Node<T>(); tail = new Node<T>(); head->next = tail; tail->prev = head;}
-    LList(const LList<T>& rhs){}
+    LList(){head = nullptr;}
     ~LList();
 
-    void push_back(const T& data){tail->prev = new Node<T>(data, tail, tail->prev); tail->prev->prev->next = tail->prev;}
+    void addAtFront(T newNode);
+    void addAtBack(T newNode);
+    void addAfterNode(T newNode, T oldNode);
+    void removeNode(T tobeRemoved);
+    int size();
+
+    template <class TT>
+    friend ostream& operator << (ostream& outs, const LList<TT>& obj);
 
 private:
     Node<T>* head;
-    Node<T>* tail;
 };
+
+template <class T>
+void LList<T>::addAtFront(T newNode) {
+    auto* nNode = new Node<T>(newNode);
+    if (head == nullptr){
+        head = nNode;
+    }
+    else {
+        head->prev = nNode;
+        nNode->next = head;
+        head = nNode;
+    }
+}
+
+template <class T>
+void LList<T>::addAtBack(T newNode) {
+    auto* nNode = new Node<T>(newNode);
+    if (head == nullptr){
+        head = nNode;
+    }
+    else {
+        Node<T>* currentNode = head;
+        while (currentNode->next != nullptr){
+            currentNode = currentNode -> next;
+        }
+        currentNode->next = nNode;
+        nNode->prev = currentNode;
+    }
+}
+
+template <class T>
+void LList<T>::addAfterNode(T newNode, T oldNode) {
+    auto* nNode = new Node<T>(newNode);
+    auto* oNode = new Node<T>(oldNode);
+    if (head == nullptr){
+        head = nNode;
+    }
+    else {
+        Node<T>* currentNode = head;
+        Node<T>* tempNode;
+        bool notFound = false;
+        while (currentNode->data != oNode->data && !notFound){
+            if (currentNode->next == nullptr){
+                cout<<"node not found!"<<endl;
+                notFound = true;
+            }
+            else {
+                currentNode = currentNode->next;
+            }
+        }
+        tempNode = currentNode->next;
+        currentNode->next = nNode;
+        nNode->prev = currentNode;
+        nNode->next = tempNode;
+        tempNode->prev = nNode;
+    }
+}
+
+template <class T>
+void LList<T>::removeNode(T tobeRemoved) {
+    if (head == nullptr){
+        cout<<"The list is empty"<<endl;
+        return;
+    }
+    else if (head->data == tobeRemoved){
+        // trying to remove the head node
+        if (head->next == nullptr){
+            delete head;
+            head = nullptr;
+        }
+        else if (head->next != nullptr){
+            head = head->next;
+            head->prev = nullptr;
+        }
+    }
+    else {
+        Node<T>* currentNode = head;
+        while (currentNode->next->next != nullptr){
+            if (currentNode->next->data == tobeRemoved){
+                currentNode->next = tobeRemoved->next;
+                tobeRemoved->next->prev = currentNode;
+
+            }
+            else {
+                currentNode = currentNode -> next;
+            }
+        }
+        if (currentNode->next->data == tobeRemoved){
+            currentNode->next = nullptr;
+
+        }
+    }
+}
+
+template <class T>
+LList<T>::~LList(){
+    Node<T>* currentNode = head;
+    Node<T>* tempNode;
+    while(currentNode != nullptr){
+        tempNode = currentNode;
+        currentNode = currentNode->next;
+        delete tempNode;
+        tempNode = nullptr;
+    }
+}
