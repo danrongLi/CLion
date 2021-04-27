@@ -35,7 +35,7 @@ template <class T>
 class Node{
 public:
     friend class LinkedList<T>;
-    friend ostream& operator<<(ostream& outs, const Node<T>& node);
+//    friend ostream& operator<<(ostream& outs, const Node<T>& node);
     Node();
     Node(T node);
     T getData() const {return data;}
@@ -47,24 +47,24 @@ private:
     T data;
 };
 
-template <class T>
-ostream& operator<<(ostream& outs, const Node<T>& node){
-    outs<<node.data;
-    return outs;
-}
+//template <class T>
+//ostream& operator<<(ostream& outs, const Node<T>& node){
+//    outs<<node.data;
+//    return outs;
+//}
 
 template <class T>
 Node<T>::Node() {
     data = nullptr;
-    next = 0;
-    prev = 0;
+    next = nullptr;
+    prev = nullptr;
 }
 
 template <class T>
 Node<T>::Node(T node){
     data = node;
-    next = 0;
-    prev = 0;
+    next = nullptr;
+    prev = nullptr;
 }
 
 template<class T>
@@ -77,7 +77,7 @@ public:
     void addAtBack(T node);
     void addAfterNode(T oldNode, T nodeToInsert);
     void removeNode(T node);
-    void printList();
+//    void printList();
     int size();
 
     template <class TT>
@@ -100,7 +100,7 @@ ostream& operator<<(ostream& outs, const LinkedList<TT>& obj){
 
 template <class T>
 LinkedList<T>::LinkedList() {
-    head = 0;
+    head = nullptr;
 }
 
 template <class T>
@@ -236,25 +236,25 @@ int LinkedList<T>::size() {
     return count;
 }
 
-template <class T>
-void LinkedList<T>::printList() {
-    Node<T>* temp = head;
-    if (temp == nullptr){
-        cout<<"list is empty"<<endl;
-        return;
-    }
-    if (temp->next == nullptr){
-        cout<<temp->data<<endl;
-        return;
-    }
-    else {
-        while (temp != nullptr){
-            cout<<temp->data<<endl;
-            temp = temp->next;
-        }
-    }
-    cout<<"Print List"<<endl;
-}
+//template <class T>
+//void LinkedList<T>::printList() {
+//    Node<T>* temp = head;
+//    if (temp == nullptr){
+//        cout<<"list is empty"<<endl;
+//        return;
+//    }
+//    if (temp->next == nullptr){
+//        cout<<temp->data<<endl;
+//        return;
+//    }
+//    else {
+//        while (temp != nullptr){
+//            cout<<temp->data<<endl;
+//            temp = temp->next;
+//        }
+//    }
+//    cout<<"Print List"<<endl;
+//}
 
 int main(){
     Song *song = new Song("Queen", "We will rock you");
