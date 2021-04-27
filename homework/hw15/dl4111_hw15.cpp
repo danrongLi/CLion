@@ -5,6 +5,7 @@
 #include <string>
 using namespace std;
 
+
 class Employee{
 public:
     Employee(){id = 0; rate = 0.0; name = "No Name";}
@@ -18,11 +19,17 @@ public:
     double getRate() const {return rate;}
     string getName() const {return name;}
 
+    friend ostream& operator<<(ostream& outs, const Employee& emp);
+
 private:
     int id;
     double rate;
     string name;
 };
+ostream& operator<<(ostream& outs, const Employee& emp){
+    outs<<emp.name<<", $"<<emp.rate<<endl;
+    return outs;
+}
 
 template <class T>
 class LList;
@@ -55,8 +62,8 @@ public:
     void removeNode(T tobeRemoved);
     int size();
 
-    template <class TT>
-    friend ostream& operator << (ostream& outs, const LList<TT>& obj);
+//    template <class TT>
+//    friend ostream& operator << (ostream& outs, const LList<TT>& obj);
 
 private:
     Node<T>* head;
@@ -142,6 +149,7 @@ void LList<T>::removeNode(T tobeRemoved) {
             if (currentNode->next->data == tobeRemoved){
                 currentNode->next = tobeRemoved->next;
                 tobeRemoved->next->prev = currentNode;
+                return;
 
             }
             else {
@@ -150,9 +158,24 @@ void LList<T>::removeNode(T tobeRemoved) {
         }
         if (currentNode->next->data == tobeRemoved){
             currentNode->next = nullptr;
-
+            return;
         }
+        cout<<"Node Not Found"<<endl;
     }
+}
+
+template <class T>
+int LList<T>::size() {
+    int count = 0;
+    if (head == nullptr){
+        return count;
+    }
+    Node<T>* currentNode = head;
+    while (currentNode->next != nullptr){
+        count += 1;
+        currentNode = currentNode->next;
+    }
+    return count;
 }
 
 template <class T>
@@ -165,4 +188,27 @@ LList<T>::~LList(){
         delete tempNode;
         tempNode = nullptr;
     }
+}
+//template<class TT>
+//ostream& operator<<(ostream& outs, const LList<TT>& obj){
+//    Node<TT>* currentNode = obj.head;
+//    while (currentNode != nullptr){
+//        outs<<currentNode->getData()<<endl;
+//        currentNode = currentNode->getNext();
+//    }
+//    return outs;
+//}
+int main(){
+    auto* emp1 = new Employee(17, 5.25, "Daniel Katz");
+    auto* emp2 = new Employee(18, 6.75, "John F. Jones");
+    auto* emp3 = new Employee(19, 4.32, "Azure Muhammad");
+
+    LList<Employee*> myList;
+    myList.addAtFront(emp1);
+    myList.addAtBack(emp3);
+    myList.addAfterNode(emp2, emp1);
+
+    cout<<*emp3<<endl;
+
+    return 0;
 }
