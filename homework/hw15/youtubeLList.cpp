@@ -18,8 +18,8 @@ private:
 };
 
 Song::Song(string songArtist, string songTitle) {
-    _songArtist = songArtist;
-    _songTitle = songTitle;
+    _songArtist = std::move(songArtist);
+    _songTitle = std::move(songTitle);
 }
 
 ostream& operator<<(ostream& outs, const Song& song){
@@ -37,7 +37,8 @@ public:
     friend class LinkedList<T>;
 //    friend ostream& operator<<(ostream& outs, const Node<T>& node);
     Node();
-    Node(T node);
+//    Node(const T& newData, Node<T>* newNext, Node<T>* newPrev);
+    explicit Node(T node);
     T getData() const {return data;}
     Node<T>* getNext() const {return next;}
     Node<T>* getPrev() const {return prev;}
@@ -51,6 +52,13 @@ private:
 //ostream& operator<<(ostream& outs, const Node<T>& node){
 //    outs<<node.data;
 //    return outs;
+//}
+
+//template <class T>
+//Node<T>::Node(const T& newData, Node<T> *newNext, Node<T> *newPrev) {
+//    data = newData;
+//    next = newNext;
+//    prev = newPrev;
 //}
 
 template <class T>
@@ -116,8 +124,8 @@ LinkedList<T>::~LinkedList() {
 
 template <class T>
 void LinkedList<T>::addAtFront(T node) {
-    Node<T>* newNode = new Node<T>();
-    newNode->data = node;
+    auto* newNode = new Node<T>(node);
+//    newNode->data = node;
     if (head == nullptr){
         head = newNode;
         newNode->next = nullptr;
@@ -131,10 +139,12 @@ void LinkedList<T>::addAtFront(T node) {
 
 template <class T>
 void LinkedList<T>::addAtBack(T node) {
-    Node<T>* newNode = new Node<T>();
-    newNode->data = node;
+    auto* newNode = new Node<T>(node);
+//    newNode->data = node;
     if (head == nullptr){
         head = newNode;
+        newNode->next = nullptr;
+        newNode->prev = nullptr;
         return;
     }
     Node<T>* temp = head;
@@ -147,13 +157,16 @@ void LinkedList<T>::addAtBack(T node) {
 
 template <class T>
 void LinkedList<T>::addAfterNode(T oldNode, T nodeToInsert) {
-    Node<T>* newNode = new Node<T>();
-    newNode->data = nodeToInsert;
-    Node<T>* oNode = new Node<T>();
-    oNode->data = oldNode;
+    auto* iNode = new Node<T>(nodeToInsert);
+//    iNode->data = nodeToInsert;
+    auto* oNode = new Node<T>(oldNode);
+//    oNode->data = oldNode;
 
     if (head == nullptr){
-        head = newNode;
+        head = iNode;
+        iNode->next = nullptr;
+        iNode->prev = nullptr;
+        return;
     }
     else {
         Node<T>* temp = head;
@@ -168,10 +181,10 @@ void LinkedList<T>::addAfterNode(T oldNode, T nodeToInsert) {
             }
         }
         temp2 = temp->next;
-        temp->next = newNode;
-        newNode->prev = temp;
-        newNode->next = temp2;
-        temp2->prev = newNode;
+        temp->next = iNode;
+        iNode->prev = temp;
+        iNode->next = temp2;
+        temp2->prev = iNode;
     }
 }
 
@@ -274,7 +287,6 @@ int main(){
     myList.removeNode(song2);
     cout<<myList<<endl;
     cout<<myList.size()<<endl;
-
 
     return 0;
 }
