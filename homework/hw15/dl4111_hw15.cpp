@@ -61,9 +61,7 @@ public:
     void addAfterNode(T newNode, T oldNode);
     void removeNode(T tobeRemoved);
     int size();
-
-//    template <class TT>
-//    friend ostream& operator << (ostream& outs, const LList<TT>& obj);
+    void printList();
 
 private:
     Node<T>* head;
@@ -189,15 +187,20 @@ LList<T>::~LList(){
         tempNode = nullptr;
     }
 }
-//template<class TT>
-//ostream& operator<<(ostream& outs, const LList<TT>& obj){
-//    Node<TT>* currentNode = obj.head;
-//    while (currentNode != nullptr){
-//        outs<<currentNode->getData()<<endl;
-//        currentNode = currentNode->getNext();
-//    }
-//    return outs;
-//}
+template <class T>
+void LList<T>::printList() {
+    Node<T>* currentNode = head;
+    if (currentNode == nullptr){
+        cout<<"empty list!"<<endl;
+    }
+    else{
+        while (currentNode!= nullptr){
+            cout<<*(currentNode->data)<<endl;
+            currentNode = currentNode->next;
+        }
+    }
+
+}
 int main(){
     auto* emp1 = new Employee(17, 5.25, "Daniel Katz");
     auto* emp2 = new Employee(18, 6.75, "John F. Jones");
@@ -209,6 +212,7 @@ int main(){
     myList.addAfterNode(emp2, emp1);
 
     cout<<*emp3<<endl;
+    myList.printList();
 
     return 0;
 }
