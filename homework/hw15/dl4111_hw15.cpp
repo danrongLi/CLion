@@ -5,19 +5,23 @@
 #include <string>
 using namespace std;
 
+void openInputFile(ifstream& empFile, ifstream& payFile);
 
 class Employee{
 public:
-    Employee(){id = 0; rate = 0.0; name = "No Name";}
-    Employee(int newId, double newRate, string newName):id(newId), rate(newRate), name(newName){}
+    Employee(){id = 0; rate = 0.0; name = "No Name";hours = 0.0; totalPay = 0.0;}
+    Employee(int newId, double newRate, string newName, double newHours):id(newId), rate(newRate), name(std::move(newName)), hours(newHours), totalPay(newRate*newHours){}
 
     void setId(int newId){id = newId;}
     void setRate(double newRate){rate = newRate;}
-    void setName(string newName){name = newName;}
+    void setName(string newName){name = std::move(newName);}
+    void setHours(double newHours){hours = newHours;}
+    void setTotalPay(){totalPay = hours*rate;}
 
     int getId() const {return id;}
     double getRate() const {return rate;}
     string getName() const {return name;}
+    double getHours() const {return hours;}
 
     friend ostream& operator<<(ostream& outs, const Employee& emp);
 
@@ -25,9 +29,11 @@ private:
     int id;
     double rate;
     string name;
+    double hours;
+    double totalPay;
 };
 ostream& operator<<(ostream& outs, const Employee& emp){
-    outs<<emp.name<<", $"<<emp.rate<<endl;
+    outs<<emp.name<<", $"<<emp.totalPay<<endl;
     return outs;
 }
 
@@ -44,6 +50,8 @@ public:
     T getData() const {return data;}
     Node<T>* getNext() const {return next;}
     Node<T>* getPrev() const {return prev;}
+
+//    void setData(Node<T> currentNode){data = currentNode.getData();next = currentNode.getNext(); prev = currentNode.getPrev();}
 private:
     T data;
     Node<T>* next;
@@ -62,6 +70,7 @@ public:
     void removeNode(T tobeRemoved);
     int size();
     void printList();
+    Node<T>* getHead() const {return head;}
 
 private:
     Node<T>* head;
@@ -199,20 +208,75 @@ void LList<T>::printList() {
             currentNode = currentNode->next;
         }
     }
-
 }
+
 int main(){
-    auto* emp1 = new Employee(17, 5.25, "Daniel Katz");
-    auto* emp2 = new Employee(18, 6.75, "John F. Jones");
-    auto* emp3 = new Employee(19, 4.32, "Azure Muhammad");
+    ifstream empFile, payFile;
+    openInputFile(empFile, payFile);
 
-    LList<Employee*> myList;
-    myList.addAtFront(emp1);
-    myList.addAtBack(emp3);
-    myList.addAfterNode(emp2, emp1);
+    LList<Employee*> employeeList;
+    int inputId;
+    double inputRate;
+    string inputName;
+    while (empFile>>inputId){
+        empFile>>inputRate;
+        empFile>>inputName;
+        empFile.ignore(9999,'\n');
+        auto* tempEmp = new Employee();
+        tempEmp->setId(inputId);
+        tempEmp->setRate(inputRate);
+        tempEmp->setName(inputName);
+        employeeList.addAtBack(tempEmp);
+    }
+    double inputHours;
+    while(payFile>>inputId>>inputHours){
+        Node<Employee*>* currentEmp = employeeList.getHead();
+        while (currentEmp!= nullptr){
+            if (currentEmp->getData()->getId() == inputId){
+                currentEmp->getData()->setHours(inputHours+currentEmp->getData()->getHours());
+                currentEmp->getData()->setTotalPay();
+                currentEmp = currentEmp->getNext();
+            }
+            else {
+                currentEmp = currentEmp->getNext();
+            }
+        }
+    }
 
-    cout<<*emp3<<endl;
-    myList.printList();
+
+
+    employeeList.printList();
+
+    empFile.close();
+    payFile.close();
 
     return 0;
+}
+
+
+void openInputFile(ifstream& empFile, ifstream& payFile){
+    string empName;
+    string payName;
+
+    cout<<"Enter your employment file name with extension"<<endl;
+    cin>>empName;
+    empFile.open(empName);
+    while (!empFile){
+        cout<<"Inaccurate employment file name"<<endl;
+        cout<<"Enter again"<<endl;
+        cin>>empName;
+        empFile.clear();
+        empFile.open(empName);
+    }
+
+    cout<<"Enter your payroll file name with extension"<<endl;
+    cin>>payName;
+    payFile.open(payName);
+    while(!payFile){
+        cout<<"Inaccurate payroll file name"<<endl;
+        cout<<"Enter again"<<endl;
+        cin>>payName;
+        payFile.clear();
+        payFile.open(payName);
+    }
 }
