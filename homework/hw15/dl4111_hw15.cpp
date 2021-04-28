@@ -220,8 +220,8 @@ int main(){
     string inputName;
     while (empFile>>inputId){
         empFile>>inputRate;
-        empFile>>inputName;
-        empFile.ignore(9999,'\n');
+        empFile.ignore(9999,' ');
+        getline(empFile,inputName);
         auto* tempEmp = new Employee();
         tempEmp->setId(inputId);
         tempEmp->setRate(inputRate);
