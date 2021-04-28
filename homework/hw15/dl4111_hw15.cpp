@@ -11,8 +11,6 @@ class LList;
 template <class T>
 class Node;
 
-//template <class T>
-//void swapTwo(Node<T>*& small, Node<T>*& big, LList<T>& employeeList);
 
 class Employee{
 public:
@@ -135,11 +133,19 @@ void LList<T>::addAfterNode(T newNode, T oldNode) {
                 currentNode = currentNode->next;
             }
         }
-        tempNode = currentNode->next;
-        currentNode->next = nNode;
-        nNode->prev = currentNode;
-        nNode->next = tempNode;
-        tempNode->prev = nNode;
+        if (currentNode -> next == nullptr){
+            currentNode->next = nNode;
+            nNode->prev = currentNode;
+            nNode->next = nullptr;
+        }
+        else {
+            tempNode = currentNode->next;
+            currentNode->next = nNode;
+            nNode->prev = currentNode;
+            nNode->next = tempNode;
+            tempNode->prev = nNode;
+        }
+
     }
 }
 
@@ -256,28 +262,23 @@ int main(){
         }
     }
 
-
-//    auto* emp1 = new Employee(1000, 0.09, "oioio", 40.0);
-//    employeeList.addAfterNode(employeeList.getHead()->getData(), employeeList.getHead()->getNext()->getData());
-//    employeeList.removeNode(employeeList.getHead()->getData());
-
-    Node<Employee*>* currentNode = employeeList.getHead();
-    while (currentNode->getNext() != nullptr){
-        if (currentNode->getData()->getTotalPay() < currentNode->getNext()->getData()->getTotalPay()){
-            cout<<currentNode->getData()->getTotalPay()<<" "<<currentNode->getNext()->getData()->getTotalPay()<<endl;
-            employeeList.addAfterNode(currentNode->getData(), currentNode->getNext()->getData());
-            cout<<"done adding after node"<<endl;
-            Node<Employee*>* temp = currentNode;
-            currentNode = currentNode->getNext();
-            cout<<"done appointing next"<<endl;
-            employeeList.removeNode(temp->getData());
-            cout<<"done removing the node"<<endl;
+    bool beingSwapped;
+    do{
+        beingSwapped = false;
+        Node<Employee*>* currentNode = employeeList.getHead();
+        while (currentNode->getNext() != nullptr){
+            if (currentNode->getData()->getTotalPay() < currentNode->getNext()->getData()->getTotalPay()){
+                employeeList.addAfterNode(currentNode->getData(), currentNode->getNext()->getData());
+                Node<Employee*>* temp = currentNode;
+                currentNode = currentNode->getNext();
+                employeeList.removeNode(temp->getData());
+                beingSwapped = true;
+            }
+            else {
+                currentNode = currentNode->getNext();
+            }
         }
-        else {
-            currentNode = currentNode->getNext();
-            cout<<"in the else, done next"<<endl;
-        }
-    }
+    } while (beingSwapped);
 
 
     cout<<"*********Payroll Information*********"<<endl;
@@ -290,11 +291,6 @@ int main(){
 
     return 0;
 }
-//template <class T>
-//void swapTwo(Node<T>*& small, Node<T>*& big, LList<T>& employeeList){
-//    employeeList.addAfterNode(small, big);
-//    employeeList.removeNode(small);
-//}
 
 void openInputFile(ifstream& empFile, ifstream& payFile){
     string empName;
