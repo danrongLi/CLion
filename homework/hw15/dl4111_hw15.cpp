@@ -244,7 +244,6 @@ int main(){
     }
 
 
-
     employeeList.printList();
 
     empFile.close();
@@ -252,7 +251,6 @@ int main(){
 
     return 0;
 }
-
 
 void openInputFile(ifstream& empFile, ifstream& payFile){
     string empName;
