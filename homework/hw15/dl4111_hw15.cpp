@@ -10,7 +10,8 @@ void openInputFile(ifstream& empFile, ifstream& payFile);
 class Employee{
 public:
     Employee(){id = 0; rate = 0.0; name = "No Name";hours = 0.0; totalPay = 0.0;}
-    Employee(int newId, double newRate, string newName, double newHours):id(newId), rate(newRate), name(std::move(newName)), hours(newHours), totalPay(newRate*newHours){}
+    Employee(int newId, double newRate, string newName, double newHours):id(newId), rate(newRate),
+                name(std::move(newName)), hours(newHours), totalPay(newRate*newHours){}
 
     void setId(int newId){id = newId;}
     void setRate(double newRate){rate = newRate;}
@@ -51,7 +52,6 @@ public:
     Node<T>* getNext() const {return next;}
     Node<T>* getPrev() const {return prev;}
 
-//    void setData(Node<T> currentNode){data = currentNode.getData();next = currentNode.getNext(); prev = currentNode.getPrev();}
 private:
     T data;
     Node<T>* next;
