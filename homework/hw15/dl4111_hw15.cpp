@@ -6,6 +6,13 @@
 using namespace std;
 
 void openInputFile(ifstream& empFile, ifstream& payFile);
+template <class T>
+class LList;
+template <class T>
+class Node;
+
+//template <class T>
+//void swapTwo(Node<T>*& small, Node<T>*& big, LList<T>& employeeList);
 
 class Employee{
 public:
@@ -23,6 +30,7 @@ public:
     double getRate() const {return rate;}
     string getName() const {return name;}
     double getHours() const {return hours;}
+    double getTotalPay() const {return totalPay;}
 
     friend ostream& operator<<(ostream& outs, const Employee& emp);
 
@@ -34,17 +42,16 @@ private:
     double totalPay;
 };
 ostream& operator<<(ostream& outs, const Employee& emp){
-    outs<<emp.name<<", $"<<emp.totalPay<<endl;
+    outs<<emp.name<<", $"<<emp.totalPay;
     return outs;
 }
-
-template <class T>
-class LList;
 
 template <class T>
 class Node{
 public:
     friend class LList<T>;
+    friend class Employee;
+
     Node(){data = nullptr; next = nullptr; prev = nullptr;}
     explicit Node(T newData){data = newData; next = nullptr; prev = nullptr;}
 
@@ -72,9 +79,12 @@ public:
     void printList();
     Node<T>* getHead() const {return head;}
 
+    friend class Employee;
+
 private:
     Node<T>* head;
 };
+
 
 template <class T>
 void LList<T>::addAtFront(T newNode) {
@@ -152,10 +162,12 @@ void LList<T>::removeNode(T tobeRemoved) {
     }
     else {
         Node<T>* currentNode = head;
+        Node<T>* tempNode;
         while (currentNode->next->next != nullptr){
             if (currentNode->next->data == tobeRemoved){
-                currentNode->next = tobeRemoved->next;
-                tobeRemoved->next->prev = currentNode;
+                tempNode = currentNode->next;
+                currentNode->next = tempNode->next;
+                tempNode->next->prev = currentNode;
                 return;
 
             }
@@ -182,6 +194,7 @@ int LList<T>::size() {
         count += 1;
         currentNode = currentNode->next;
     }
+    count += 1;
     return count;
 }
 
@@ -244,13 +257,44 @@ int main(){
     }
 
 
+//    auto* emp1 = new Employee(1000, 0.09, "oioio", 40.0);
+//    employeeList.addAfterNode(employeeList.getHead()->getData(), employeeList.getHead()->getNext()->getData());
+//    employeeList.removeNode(employeeList.getHead()->getData());
+
+    Node<Employee*>* currentNode = employeeList.getHead();
+    while (currentNode->getNext() != nullptr){
+        if (currentNode->getData()->getTotalPay() < currentNode->getNext()->getData()->getTotalPay()){
+            cout<<currentNode->getData()->getTotalPay()<<" "<<currentNode->getNext()->getData()->getTotalPay()<<endl;
+            employeeList.addAfterNode(currentNode->getData(), currentNode->getNext()->getData());
+            cout<<"done adding after node"<<endl;
+            Node<Employee*>* temp = currentNode;
+            currentNode = currentNode->getNext();
+            cout<<"done appointing next"<<endl;
+            employeeList.removeNode(temp->getData());
+            cout<<"done removing the node"<<endl;
+        }
+        else {
+            currentNode = currentNode->getNext();
+            cout<<"in the else, done next"<<endl;
+        }
+    }
+
+
+    cout<<"*********Payroll Information*********"<<endl;
     employeeList.printList();
+    cout<<"*********End Payroll*********"<<endl;
+
 
     empFile.close();
     payFile.close();
 
     return 0;
 }
+//template <class T>
+//void swapTwo(Node<T>*& small, Node<T>*& big, LList<T>& employeeList){
+//    employeeList.addAfterNode(small, big);
+//    employeeList.removeNode(small);
+//}
 
 void openInputFile(ifstream& empFile, ifstream& payFile){
     string empName;
