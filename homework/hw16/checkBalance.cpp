@@ -50,7 +50,7 @@ bool isBalance(const string& expression){
 }
 
 int main() {
-    string expr = "";
+    string expr = "{}{[]}([])";
     if (isBalance(expr))
         cout << "Balanced";
     else
