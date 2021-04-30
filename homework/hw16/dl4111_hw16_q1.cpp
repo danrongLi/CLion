@@ -25,7 +25,14 @@ int main() {
     fstream myFile;
     openFile(myFile);
 
-    Stack<string> myStack;
+    Stack<char> myStack;
+
+    char currentChar;
+
+    myFile>>currentChar;
+
+
+
 
 
 
