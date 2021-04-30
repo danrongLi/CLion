@@ -8,6 +8,10 @@ using namespace std;
 
 bool isBalance(const string& expression){
     stack<char> s;
+    if (expression.empty()){
+        cout<<"You gave me an empty list! I guess it should be balanced!"<<endl;
+        return true;
+    }
     for (int i = 0; i < expression.size(); i += 1){
         if (expression[i] == '{' || expression[i] == '[' || expression[i] == '('){
             s.push(expression[i]);
@@ -37,11 +41,16 @@ bool isBalance(const string& expression){
             return false;
         }
     }
-    return true;
+    if (!s.empty()){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 int main() {
-    string expr = "[]{}{()}";
+    string expr = "";
     if (isBalance(expr))
         cout << "Balanced";
     else
