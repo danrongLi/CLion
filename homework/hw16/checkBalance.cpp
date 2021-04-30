@@ -40,6 +40,9 @@ bool isBalance(const string& expression){
         else if ((expression[i] == '}' || expression[i] == ']' || expression[i] == ')') && (s.empty())){
             return false;
         }
+        else{
+            continue;
+        }
     }
     if (!s.empty()){
         return false;
@@ -50,7 +53,7 @@ bool isBalance(const string& expression){
 }
 
 int main() {
-    string expr = "{}{[]}([])";
+    string expr = "if (x==y){k;x=z;} if (arr[3] != [v2]){return false;}";
     if (isBalance(expr))
         cout << "Balanced";
     else
