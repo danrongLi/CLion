@@ -67,20 +67,31 @@ bool isBalance(const string& expression){
 
 int main() {
 
+    bool whetherBalance;
+
     fstream myFile;
     openFile(myFile);
 
     Stack<char> myStack;
 
-    char currentChar;
+    string entireFile;
+    string temp;
 
-    myFile>>currentChar;
+    while(myFile>>temp){
+        entireFile += temp;
+    }
+
+    cout<<entireFile<<endl;
 
 
 
 
-
-
+//    if (whetherBalance){
+//        cout<<"The program inside the file your provided is Balanced!"<<endl;
+//    }
+//    else {
+//        cout<<"The program inside the file your provided is NOT Balanced!"<<endl;
+//    }
 
     myFile.close();
 
