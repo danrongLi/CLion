@@ -51,6 +51,9 @@ int main() {
     vq.enqueue(10);
     vq.enqueue(20);
     vq.enqueue(30);
+    vq.enqueue(100);
+    vq.enqueue(2);
+    vq.enqueue(3);
     while(!vq.isEmpty()){
         cout<<vq.top()<<" ";
         vq.dequeue();
