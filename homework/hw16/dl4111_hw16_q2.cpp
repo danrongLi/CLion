@@ -5,61 +5,70 @@
 using namespace std;
 
 template <class T>
-class Queue{
+class vQueue{
 public:
-    Queue(){data = vector<T>(); start = nullptr; end = nullptr; size = 0;}
+    vQueue(){ vdata = vector<T>(); start = nullptr; end = nullptr; size = 0;}
     void enqueue(T newItem);
     void dequeue();
     T top() const {return *start;}
     bool isEmpty() const {return size==0;}
-    void clear() {data.clear(); start = nullptr; end = nullptr; size = 0;}
+    void clear() {vdata.clear(); start = nullptr; end = nullptr; size = 0;}
 private:
-    vector<T> data;
+    vector<T> vdata;
     T* start;
     T* end;
     int size;
 };
 
 template <class T>
-void Queue<T>::enqueue(T newItem) {
-    if (start == nullptr && end == nullptr && size == 0){
-        data.push_back(newItem);
-        start = &(data[0]);
-        end = &(data[0]);
+void vQueue<T>::enqueue(T newItem) {
+        vdata.push_back(newItem);
+        start = &(vdata[0]);
+        end = &(vdata[-1]);
         size += 1;
-    }
-    else {
-        data.push_back(newItem);
-        end = &(data.back());
-        size += 1;
-    }
 }
 template <class T>
-void Queue<T>::dequeue() {
+void vQueue<T>::dequeue() {
     if (start == nullptr && end == nullptr && size == 0){
         cout<<"You cannot dequeue an empty queue!"<<endl;
         exit(1);
     }
     else {
         size -= 1;
-        start += 1;
+        if(size == 0){
+            clear();
+        }
+        else {
+            start += 1;
+        }
     }
 }
 
 int main() {
-    Queue<int> vq;
+    vQueue<int> vq;
     vq.enqueue(10);
     vq.enqueue(20);
     vq.enqueue(30);
+    vq.enqueue(40);
+    vq.enqueue(50);
+    vq.enqueue(60);
+    vq.enqueue(10);
+    vq.enqueue(20);
+    vq.enqueue(30);
+    vq.enqueue(40);
+    vq.enqueue(50);
+    vq.enqueue(60);
     vq.enqueue(100);
-    vq.enqueue(2);
-    vq.enqueue(3);
+    vq.enqueue(200);
+    vq.enqueue(300);
+    vq.enqueue(400);
+    vq.enqueue(500);
+    vq.enqueue(600);
+
     while(!vq.isEmpty()){
-        cout<<vq.top()<<" ";
+        cout<<vq.top()<<endl;
         vq.dequeue();
     }
-    cout<<endl;
-
 
     return 0;
 }
