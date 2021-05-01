@@ -5,6 +5,8 @@
 
 using namespace std;
 void openFile(fstream& myFile);
+bool isBalance(const string& expression);
+bool isBalanceEntire(fstream& myFile);
 
 template <class T>
 class Stack{
@@ -18,6 +20,42 @@ public:
 private:
     list<T> data;
 };
+
+int main() {
+
+    fstream myFile;
+    openFile(myFile);
+
+    bool checkEntire = isBalanceEntire(myFile);
+
+
+    if (checkEntire){
+        cout<<"Balanced!"<<endl;
+    }
+    else {
+        cout<<"NOT Balanced!"<<endl;
+    }
+
+    myFile.close();
+
+    return 0;
+}
+
+void openFile(fstream& myFile){
+    string fileName;
+    cout<<"Please enter your Pascal file with extension"<<endl;
+    cin >> fileName;
+
+    myFile.open(fileName);
+
+    while (!myFile){
+        cout<<"Unable to open it"<<endl;
+        cout<<"Check your file name and enter again"<<endl;
+        cin >> fileName;
+        myFile.clear();
+        myFile.open(fileName);
+    }
+}
 
 bool isBalance(const string& expression){
     Stack<char> s;
@@ -65,51 +103,59 @@ bool isBalance(const string& expression){
     }
 }
 
-int main() {
+bool isBalanceEntire(fstream& myFile){
+    Stack<string> myStack;
+    string current;
+    string middleFile;
+    bool addedMiddle = false;
+    if (!myFile){
+        cout<<"You gotta be kidding me"<<endl;
+        return false;
+    }
+    while (myFile>>current){
+        if (current == "begin"){
+            myStack.push(current);
+            if (addedMiddle){
+                bool checkPrevious = isBalance(middleFile);
+                if(!checkPrevious){
+                    return false;
+                }
+                else {
+                    middleFile = "";
+                    addedMiddle = false;
+                }
+            }
 
-    bool whetherBalance;
+        }
+        else if ((current == "end") && (!myStack.isEmpty())){
+            string popped = myStack.top();
+            myStack.pop();
+        }
+        else if ((current == "end") && (myStack.isEmpty())){
+            return false;
+        }
+        else {
+            middleFile += current;
+            addedMiddle = true;
+        }
 
-    fstream myFile;
-    openFile(myFile);
-
-    Stack<char> myStack;
-
-    string entireFile;
-    string temp;
-
-    while(myFile>>temp){
-        entireFile += temp;
+    }
+    if (!myStack.isEmpty()){
+        return false;
+    }
+    else {
+        if (addedMiddle){
+            bool checkPrevious = isBalance(middleFile);
+            if(!checkPrevious){
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
     }
 
-    cout<<entireFile<<endl;
-
-
-
-
-//    if (whetherBalance){
-//        cout<<"The program inside the file your provided is Balanced!"<<endl;
-//    }
-//    else {
-//        cout<<"The program inside the file your provided is NOT Balanced!"<<endl;
-//    }
-
-    myFile.close();
-
-    return 0;
-}
-
-void openFile(fstream& myFile){
-    string fileName;
-    cout<<"Please enter your Pascal file with extension"<<endl;
-    cin >> fileName;
-
-    myFile.open(fileName);
-
-    while (!myFile){
-        cout<<"Unable to open it"<<endl;
-        cout<<"Check your file name and enter again"<<endl;
-        cin >> fileName;
-        myFile.clear();
-        myFile.open(fileName);
-    }
 }
