@@ -252,9 +252,8 @@ void LList::remove_last()
         {
             prev = here;
 
-            if (here != nullptr) {
-                here = here->next;
-            }
+            here = here->next;
+
 
         }
 
