@@ -40,9 +40,9 @@ public:
     void prettyPrint(int indent) const;
 
     template <class T1>
-    friend void swapColor(RBTNode<T1>* node);
+    friend void swapColor(RBTNode<T1> *);
     template <class T1>
-    friend int getColor(RBTNode<T1>* node);
+    friend int getColor(RBTNode<T1> *);
 
     int height() const;
 };
@@ -98,10 +98,10 @@ int getColor(RBTNode<T> *node) {
 template <class T>
 class RBT {
     RBTNode<T> *root;
-    void singleLeft(RBTNode<T> *&point);
-    void leftRight(RBTNode<T> *&point);
-    void singleRight(RBTNode<T> *&point);
-    void rightLeft(RBTNode<T> *&point);
+    void singleCCR(RBTNode<T> *&point);
+    void doubleCR(RBTNode<T> *&point);
+    void singleCR(RBTNode<T> *&point);
+    void doubleCCR(RBTNode<T> *&point);
 
 public:
     RBT() : root(nullptr) {}
@@ -114,71 +114,29 @@ public:
 };
 
 template <class T>
-void RBT<T>::rightLeft(RBTNode<T> *&point) {
-    singleRight(point->right);
-    singleLeft(point);
+void RBT<T>::doubleCCR(RBTNode<T> *&point) {
+    singleCR(point->right);
+    singleCCR(point);
 }
 
 template <class T>
-void RBT<T>::leftRight(RBTNode<T> *&point) {
-    singleLeft(point->left);
-    singleRight(point);
+void RBT<T>::doubleCR(RBTNode<T> *&point) {
+    singleCCR(point->left);
+    singleCR(point);
 }
 
 template <class T>
-void RBT<T>::singleRight(RBTNode<T> *&point) {
-    RBTNode<T>* grandparent = point;
-    RBTNode<T>* parent = point->left;
+void RBT<T>::singleCR(RBTNode<T> *&point) {
+    RBTNode<T> *grandparent = point;
+    RBTNode<T> *parent = point->left;
     // TODO: ADD ROTATION CODE HERE
-
-    RBTNode<T>* parentRight = parent->right;
-    RBTNode<T>* grandGrand = grandparent->parent;
-
-    parent->right = grandparent;
-    grandparent->parent = parent;
-    grandparent->left = parentRight;
-
-    if (grandGrand == nullptr){
-        root = parent;
-    }
-    else {
-        if (grandGrand->left == grandparent){
-            grandGrand->left = parent;
-        }
-        else {
-            grandGrand->right = parent;
-        }
-    }
-    swapColor(grandparent);
-    swapColor(parent);
 }
 
 template <class T>
-void RBT<T>::singleLeft(RBTNode<T> *&point) {
+void RBT<T>::singleCCR(RBTNode<T> *&point) {
     RBTNode<T> *grandparent = point;
     RBTNode<T> *parent = point->right;
     // TODO: ADD ROTATION CODE HERE
-
-    RBTNode<T>* parentLeft = parent->left;
-    RBTNode<T>* grandGrand = grandparent->parent;
-
-    parent->left = grandparent;
-    grandparent->parent = parent;
-    grandparent->right = parentLeft;
-
-    if (grandGrand == nullptr){
-        root = parent;
-    }
-    else {
-        if (grandGrand->left == grandparent){
-            grandGrand->left = parent;
-        }
-        else {
-            grandGrand->right = parent;
-        }
-    }
-    swapColor(grandparent);
-    swapColor(parent);
 }
 
 template <class T>
@@ -190,9 +148,6 @@ void RBT<T>::insert(const T &toInsert, RBTNode<T> *&point, RBTNode<T> *parent) {
 
         RBTNode<T> *curr_node = point; // curr_node will be set appropriately when walking up the tree
         // TODO: ADD RBT RULES HERE
-
-
-
     } else if (toInsert < point->data) { // recurse down the tree to left to find correct leaf location
         insert(toInsert, point->left, point);
     } else { // recurse down the tree to right to find correct leaf location
