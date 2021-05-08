@@ -67,11 +67,11 @@ void RBTNode<T>::prettyPrint(int indent) const {
     }
     int margin = indent * 2;
     for (int i = 0; i < margin; ++i) {
-        cout << '\t';
+        cout << '\t' <<'\t';
     }
     cout << "DATA: " << data << endl;
     for (int i = 0; i < margin; ++i) {
-        cout << '\t';
+        cout << '\t'<<'\t';
     }
     cout << "COLOR: " << (color == RED ? "RED" : "BLACK") << endl;
     if (left != nullptr) {
@@ -98,10 +98,10 @@ int getColor(RBTNode<T> *node) {
 template <class T>
 class RBT {
     RBTNode<T> *root;
-    void singleCCR(RBTNode<T> *&point);
-    void doubleCR(RBTNode<T> *&point);
-    void singleCR(RBTNode<T> *&point);
-    void doubleCCR(RBTNode<T> *&point);
+    void singleLeft(RBTNode<T> *&point);
+    void leftRight(RBTNode<T> *&point);
+    void singleRight(RBTNode<T> *&point);
+    void rightLeft(RBTNode<T> *&point);
 
 public:
     RBT() : root(nullptr) {}
@@ -114,29 +114,75 @@ public:
 };
 
 template <class T>
-void RBT<T>::doubleCCR(RBTNode<T> *&point) {
-    singleCR(point->right);
-    singleCCR(point);
+void RBT<T>::rightLeft(RBTNode<T> *&point) {
+    singleRight(point->right);
+    singleLeft(point);
 }
 
 template <class T>
-void RBT<T>::doubleCR(RBTNode<T> *&point) {
-    singleCCR(point->left);
-    singleCR(point);
+void RBT<T>::leftRight(RBTNode<T> *&point) {
+    singleLeft(point->left);
+    singleRight(point);
 }
 
 template <class T>
-void RBT<T>::singleCR(RBTNode<T> *&point) {
+void RBT<T>::singleRight(RBTNode<T> *&point) {
     RBTNode<T> *grandparent = point;
     RBTNode<T> *parent = point->left;
     // TODO: ADD ROTATION CODE HERE
+
+    // down!
+    grandparent->left = parent->right;
+    if (parent->right != nullptr){
+        parent->right->parent = grandparent;
+    }
+    // up!
+    parent->parent = grandparent->parent;
+    if (grandparent->parent == nullptr){
+        root = parent;
+    }
+    else {
+        if (grandparent->parent->left == grandparent){
+            grandparent->parent->left = parent;
+        }
+        else {
+            grandparent->parent->right = parent;
+        }
+    }
+    // each other!
+    parent->right = grandparent;
+    grandparent->parent = parent;
+
 }
 
 template <class T>
-void RBT<T>::singleCCR(RBTNode<T> *&point) {
+void RBT<T>::singleLeft(RBTNode<T> *&point) {
     RBTNode<T> *grandparent = point;
     RBTNode<T> *parent = point->right;
     // TODO: ADD ROTATION CODE HERE
+
+    // down!
+    grandparent->right = parent->left;
+    if (parent->left != nullptr){
+        parent->left->parent = grandparent;
+    }
+    // up!
+    parent->parent = grandparent->parent;
+    if (grandparent->parent == nullptr){
+        root = parent;
+    }
+    else {
+        if (grandparent->parent->right == grandparent){
+            grandparent->parent->right = parent;
+        }
+        else {
+            grandparent->parent->left = parent;
+        }
+    }
+    // each other!
+    parent->left = grandparent;
+    grandparent->parent = parent;
+
 }
 
 template <class T>
@@ -148,6 +194,62 @@ void RBT<T>::insert(const T &toInsert, RBTNode<T> *&point, RBTNode<T> *parent) {
 
         RBTNode<T> *curr_node = point; // curr_node will be set appropriately when walking up the tree
         // TODO: ADD RBT RULES HERE
+
+        while (curr_node != root && getColor(curr_node) == RED && getColor(curr_node->parent) == RED){
+            RBTNode<T>* uncle;
+            if (curr_node->parent->parent->left == curr_node->parent){
+                uncle = curr_node->parent->parent->right;
+                if (getColor(uncle) == RED){
+                    swapColor(curr_node->parent);
+                    swapColor(uncle);
+                    swapColor(curr_node->parent->parent);
+                    curr_node = curr_node->parent->parent;
+                }
+                else if (getColor(uncle) == BLACK){
+                    if (curr_node->parent->left == curr_node){
+                        swapColor(curr_node->parent);
+                        swapColor(curr_node->parent->parent);
+                        singleRight(curr_node->parent->parent);
+
+
+                    }
+                    else if (curr_node->parent->right == curr_node){
+                        swapColor(curr_node->parent->parent);
+                        swapColor(curr_node);
+                        leftRight(curr_node->parent);
+
+
+                    }
+                }
+            }
+            else if (curr_node->parent->parent->right == curr_node->parent){
+                uncle = curr_node->parent->parent->left;
+                if (getColor(uncle) == RED){
+                    swapColor(curr_node->parent);
+                    swapColor(uncle);
+                    swapColor(curr_node->parent->parent);
+                    curr_node = curr_node->parent->parent;
+                }
+                else if (getColor(uncle) == BLACK){
+                    if (curr_node->parent->right == curr_node){
+                        swapColor(curr_node->parent);
+                        swapColor(curr_node->parent->parent);
+                        singleLeft(curr_node->parent->parent);
+
+
+                    }
+                    else if (curr_node->parent->left == curr_node){
+                        swapColor(curr_node->parent->parent);
+                        swapColor(curr_node);
+                        rightLeft(curr_node->parent);
+
+
+                    }
+                }
+            }
+        }
+        root->color = BLACK;
+
     } else if (toInsert < point->data) { // recurse down the tree to left to find correct leaf location
         insert(toInsert, point->left, point);
     } else { // recurse down the tree to right to find correct leaf location
