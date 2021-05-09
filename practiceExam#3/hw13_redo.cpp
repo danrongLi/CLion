@@ -88,7 +88,6 @@ void World::display() {
     }
 }
 void World::oneTimeStep() {
-    cout<<"preparing"<<endl;
     for (int i = 0; i < WORLD_SIZE; i += 1){
         for (int j = 0; j < WORLD_SIZE; j += 1){
             if (grid[i][j]!= nullptr){
@@ -96,7 +95,6 @@ void World::oneTimeStep() {
             }
         }
     }
-    cout<<"moving doodle"<<endl;
     for (int i = 0; i < WORLD_SIZE; i += 1){
         for (int j = 0; j < WORLD_SIZE; j += 1){
             if (grid[i][j]!= nullptr && grid[i][j]->getType() == DOODLE_CHAR && (!grid[i][j]->getWhetherMoved())){
@@ -104,7 +102,6 @@ void World::oneTimeStep() {
             }
         }
     }
-    cout<<"moving ant"<<endl;
     for (int i = 0; i < WORLD_SIZE; i += 1){
         for (int j = 0; j < WORLD_SIZE; j += 1){
             if (grid[i][j]!= nullptr && grid[i][j]->getType() == ANT_CHAR && (!grid[i][j]->getWhetherMoved())){
@@ -112,7 +109,6 @@ void World::oneTimeStep() {
             }
         }
     }
-    cout<<"breeding doodle"<<endl;
     for (int i = 0; i < WORLD_SIZE; i += 1){
         for (int j = 0; j < WORLD_SIZE; j += 1){
             if (grid[i][j]!= nullptr && grid[i][j]->getType() == DOODLE_CHAR ){
@@ -120,7 +116,6 @@ void World::oneTimeStep() {
             }
         }
     }
-    cout<<"breeding ant"<<endl;
     for (int i = 0; i < WORLD_SIZE; i += 1){
         for (int j = 0; j < WORLD_SIZE; j += 1){
             if (grid[i][j]!= nullptr && grid[i][j]->getType() == ANT_CHAR){
@@ -128,7 +123,6 @@ void World::oneTimeStep() {
             }
         }
     }
-    cout<<"deleting starved organism"<<endl;
     for (int i = 0; i < WORLD_SIZE; i += 1){
         for (int j = 0; j < WORLD_SIZE; j += 1){
             if (grid[i][j]!= nullptr){
