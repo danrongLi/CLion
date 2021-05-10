@@ -1,0 +1,29 @@
+begin
+ clrscr;
+  Write('Enter a number:');
+  readln(no);
+
+  if (no[1] > 0) then{
+   writeln('You enter Positive Number')}
+  else{
+    if (no[1] < 0) then{
+     writeln('You enter Negative number')}
+    else{
+      if (no[1] = 0) then{
+      writeln('You enter Zero');}}}
+
+  readln;
+end
+begin
+
+meowoooo
+()[]
+
+end
+begin
+jiiiii{}
+end
+
+begin
+{}
+end

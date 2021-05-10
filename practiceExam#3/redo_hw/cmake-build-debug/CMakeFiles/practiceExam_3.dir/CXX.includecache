@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/danrongli/Desktop/CLion/practiceExam#3/hw17_redo.cpp
+iostream
+-
+cmath
+-
+queue
+-
+
