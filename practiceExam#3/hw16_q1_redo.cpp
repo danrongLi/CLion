@@ -137,5 +137,4 @@ void openFile(fstream& myFile){
         myFile.clear();
         myFile.open(name);
     }
-
 }
