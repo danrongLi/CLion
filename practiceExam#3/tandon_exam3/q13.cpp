@@ -1,36 +1,53 @@
 #include <iostream>
 #include <list>
+#include <stack>
 
 using namespace std;
 
 class MinStack{
 public:
     MinStack(){
-        data = list<int>();
+        myS = stack<int>();
+        min = stack<int>();
     }
     void push(int x){
-        data.push_front(x);
+        if (myS.empty() || x <= min.top()){
+            min.push(x);
+        }
+        myS.push(x);
     }
     void pop(){
-        data.pop_front();
+        if (myS.empty()){return;}
+        if (myS.top() == min.top()){
+            min.pop();
+        }
+        myS.pop();
     }
     int top(){
-        return *data.begin();
+        if (myS.empty()){return -1;}
+        return myS.top();
     }
     int getMin(){
-        int current = top();
-        return current;
+        if (myS.empty()){
+            return -1;
+        }
+        return min.top();
     }
 private:
-    list<int> data;
+    stack<int> myS;
+    stack<int> min;
 };
 
 int main(){
     MinStack obj;
     obj.push(5);
+    obj.push(13);
+    obj.push(1);
+    obj.push(14);
     obj.pop();
     int param_3 = obj.top();
     int param_4 = obj.getMin();
+    cout<<param_3<<" "<<param_4<<endl;
 
 
     return 0;

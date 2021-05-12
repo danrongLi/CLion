@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -10,15 +11,25 @@ int main(){
 
     ifstream file1, file2;
     openFile(file1, file2);
+    list<int> list1;
+    list<int> list2;
+
     int sum = 0;
     string num;
-    while (file1>>num){
-        cout<<num<<" ";
+    while (getline(file1, num)){
+        for(auto numIndi:num){
+            int n = numIndi-'0';
+            list1.push_back(n);
+        }
     }
-    while(file2>>num){
-        cout<<num<<" ";
+    while(getline(file2, num)){
+        for(auto numIndi:num){
+            int n = numIndi-'0';
+            cout<<n;
+            list2.push_back(n);
+        }
+        cout<<endl;
     }
-    cout<<sum<<endl;
 
 
     return 0;

@@ -12,14 +12,16 @@ struct ListNode{
 
 ListNode* reverse_linked_list(ListNode* head){
     // Reverse the linked list and return the new head after reversing
-    ListNode* currentNode = head;
-    ListNode* currentNext = currentNode->next;
-    while (currentNext != nullptr){
-        currentNode->next = currentNext->next;
-        currentNext->next = head;
-        head = currentNext;
+    ListNode* curr = head;
+    ListNode* prev = nullptr;
+
+    while(curr != nullptr){
+        ListNode* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
     }
-    return head;
+    return prev;
 
 }
 
@@ -45,6 +47,7 @@ int find_max(ListNode* head){
     while (currentNode != nullptr){
         if (currentNode->val > currentMax){
             currentMax = currentNode->val;
+            currentNode = currentNode->next;
         }
         else {
             currentNode = currentNode->next;

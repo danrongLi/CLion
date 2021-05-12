@@ -6,48 +6,65 @@ using namespace std;
 template <class T>
 class Stack{
 public:
-    void push(T newItem);
-    void pop();
-    int getSize();
-    bool isEmpty();
-    T front();
-    void clear();
+    Stack(){currentSize = 0;}
+    void push(T newItem){
+        q1.push(newItem);
+        currentSize += 1;
+    }
+    void pop(){
+        if (q1.empty()){
+            return;
+        }
+        while (q1.size()!=1){
+            q2.push(q1.front());
+            q1.pop();
+        }
+        q1.pop();
+        currentSize -= 1;
+        queue<int> temp = q1;
+        q1 = q2;
+        q2 = temp;
+    }
+    T top(){
+        if (q1.empty()){
+            return -1;
+        }
+        while (q1.size()!=1){
+            q2.push(q1.front());
+            q1.pop();
+        }
+        T topped = q1.front();
+        q1.pop();
+        q2.push(topped);
+        queue<int> temp = q1;
+        q1 = q2;
+        q2 = temp;
+        return topped;
+    }
+    int getSize(){return currentSize;}
 
 private:
-    queue<T> data;
+    queue<T> q1;
+    queue<T> q2;
+    int currentSize;
 };
-
-template <class T>
-void Stack<T>::push(T newItem) {
-    data.front() = newItem;
-}
-
-template <class T>
-void Stack<T>::clear() {
-    data.clear();
-}
-
-template <class T>
-void Stack<T>::pop() {
-    data.pop();
-}
-
-template <class T>
-int Stack<T>::getSize() {
-    data.size();
-}
-
-template <class T>
-bool Stack<T>::isEmpty() {
-    return (data.size() == 0);
-}
-
-template <class T>
-T Stack<T>::front() {
-    return data.front();
-}
 
 
 int main(){
+
+    Stack<int> s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+
+    cout<<s.getSize()<<endl;
+    cout<<s.top()<<" ";
+    s.pop();
+    cout<<s.top()<<" ";
+    s.pop();
+    cout<<s.top()<<endl;
+    cout<<s.getSize()<<endl;
+
     return 0;
 }
