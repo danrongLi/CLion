@@ -1,0 +1,21 @@
+Question 1
+A
+
+Question 2
+Not compile
+
+Question 3
+cout<<root->children[1]->children[0]<<endl;
+
+Question 4
+Pure virtual 
+
+Question 5
+4,2,5,1,6,3,7
+
+Question 6
+A
+
+Question 7
+B
+
