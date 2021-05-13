@@ -1,0 +1,27 @@
+Question 1
+b. void deleteRoot(BSTNode*& root)
+
+Question 2
+C
+
+Question 3
+B
+
+Question 4
+6 5 - 4 * 3 + 2 +
+2 3 4 6 * + + 5 -
+
+Question 5
+-1.5
+
+Question 6
+We have to write a function to find the current height:
+If encounter nullptr, return -1;
+Recursively return max(leftHeight, rightHeight);
+Then the height of the current node is 1+ max(leftHeight, rightHeight);
+
+For the tree, we need to do the pre-order transversal. For each node during the transversal,
+We need to check the height of the left subtree and the right subtree. 
+If the difference > 1, we break out of the function and return false;
+Else we continue. If we reached the end of the tree without any breakouts, we return true;
+Run time O(n) due to transversal.
