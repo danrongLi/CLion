@@ -269,8 +269,23 @@ int main() {
     for (int i = 0; i < count; i++) {
         b.insert(i);
     }
-
     b.prettyPrint();
+    cout<<endl<<endl<<endl;
+    cout<<"::::not working::::"<<endl;
+    cout<<endl<<endl<<endl;
+    RBT<int> c;
+    c.insert(18);
+    c.insert(8);
+    c.insert(4);
+    c.insert(20);
+    c.insert(14);
+    c.insert(27);
+    c.insert(19);
+    c.insert(15);
+    c.insert(12);
+    c.insert(13);
+    c.prettyPrint();
+
     /* EXPECTED OUTPUT:
                                                                     Data: 9
                                                                     COLOR: RED
@@ -299,4 +314,6 @@ int main() {
     // if the assertion fails, then your tree does not properly self-balance
     int height = b.height();
     assert(height <= 2 * log2(count));
+    int heightC = c.height();
+    assert(heightC <= 2 * log2(count));
 }
