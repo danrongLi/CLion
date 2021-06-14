@@ -65,20 +65,6 @@
  *
  * Question 9
  *
- * If 64K bytes is the window size of TCP,
- * Lets assume each packet is 1500 bits, then only ~ 43 packets can be transmitted through each window
- * RTT is the round trip value for packets to reach a destination and come back to source.
- * Propagation delay = d / s = 3000000 / 3.8*10^8 = 7.8 ms
- * If the network has transmission rate of 10 Mbps
- * Transmission time = 6.4 ms
- * Then, the TCP connection can send next window of packets only after receiving ACK from destination.
- * 1 Transmission with feedback ACK takes 1 RTT.
- * So a single RTT will take roughly take (7.8 + 6.4) * 2 ~ 30 ms
- * So in 1 RRT only 64Kb of data will be sent in 30ms.
- * So therefore only 2 MB of data is transmitted per second.
- * So every window of transmission will send only 2 MB of data per second even if
- * the transmission rate is 10 MB which results in a slow network connection from New York to El Paso, Texas
- *
  * Question 10
  * 10.1.1.0/26 NY
  * 10.1.1.64/26 LA
