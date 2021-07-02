@@ -1,0 +1,141 @@
+Name: ___________Danrong Li_________
+ 
+netId: _____dl4111______________
+
+
+
+1) (3pts) Multiple Choice: b
+2) (3pts) Multiple Choice: b
+3) (3pts) Multiple Choice: c
+4) (3pts) Multiple Choice: d
+5) (3pts) Multiple Choice: a
+
+
+6) (10 pts) Short answer:
+Since we are using paging and already at the full amount of allocated memory then we are still creating new integer on the heap, we need to utilize the virtual memory. Then we can swap some pages to some portion of the secondary storage. We can choose the program like the splash screen when opening up an app and swap this to the virtual memory since we only need it during the very beginning. We can use clock page algorithm to swap the pages that was not accessed currently. The optimal solution is to select the page that is not going to use for the longest time, but we cannot determine this, this is infeasible. So we can just use clock page algorithm.
+
+7) (10 pts) Short answer:
+If Microsoft put the entire code for the OS in the kernel mode, this would be disaster. From the history, this situation would cause crashes all the time. This is because kernel mode means the code would get access to all the parts in the kernel and cause crashes. The code in the kernel mode would have no restrictions. On the other hand, the code in the user mode would only have limited access. This would protect the computer from crashing. Also this adds on security.
+
+8) (10 pts) Short answer:
+DHCP is a protocol to dynamically give out IP addresses to hosts. When host enters the network, the host would initialize, then discover. Then DHCP server would offer the IP address. Host would select and request this IP address. Then the DHCP server would ACK this and then we have a bond. If 2 different DHCP servers gave out the same IP address to the different 2 hosts, the second DHCP would not ACK the request of the IP address from the second host, since it suddenly realized that the given IP address is taken by the first host who requested the IP address earlier and got the ACK earlier. 
+
+
+9) (10 pts) Short answer:
+The total processing delay on the 10 routers are: 10 * 2ms = 20ms = 0.02s
+The total distance to propagate is: (10-1)*3000km
+Light speed: 300,000 km/s
+The total propagation delay is: 3000km*(10-1) / 300000km/s = 0.09s
+So the total delay is: 0.02s + 0.09s = 0.11s
+
+
+10) (15 pts) Long answer:
+RIP is for intra-AS and it uses DV algorithm. Router B knows the path info from its neighboring routers A & C. 
+It depends on the number of hops. Assume router B needs to take care of 40 hosts on each side. So we need /26, which gives us 62 usable host addresses. 
+The network number would be: 10.2.0.0/26
+The 1st address would be: 10.2.0.1
+The last address would be: 10.2.0.30
+The broadcast address would be: 10.2.0.31
+
+If Router B wants to go to 10.3.0.0/24 or 10.3.0.1/24, it must go to Router C first. It takes 1 hop for Router C to go to them, then it would take Router B (1+1=)2 hops to go to them.
+Similarly, it would also take 2 hops for Router B to go to 10.1.0.0/24 or 10.1.1.0/24 since we first go to Router A, and it takes A 1 hop, then would take B 2 hops.
+
+
+
+11) (10 pts) Short answer:
+The process might favor 1 CPU because it already loaded the useful information to the register. And it would be more efficient to keep calling the same register than switching around. This can also be owing to preemption. If we don't allow the process to be on the CPU it prefers, this would be time-consuming. And some processes are targeted to run on 1 CPU. 
+
+
+
+12) (20 pts) Write the code:
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+template <class T>
+class BSTNode<T>{
+public:
+    BSTNode(BSTNode<T>* nL = nullptr, BSTNode<T>* nR = nullptr, BSTNode<T>* nP = nullptr){left = nL;right = nR;parent = nP;}
+    BSTNode<T>* left;
+    BSTNode<T>* right;
+    BSTNode<T>* parent;
+    T value;
+private:
+
+};
+
+BSTNode<int>* getLeft(BSTNode<int>* current){
+    BSTNode<int>* temp = current;
+    while(temp != nullptr && temp->left != nullptr){
+        temp = temp->left;
+    }
+    return temp;
+}
+BSTNode<int>* getRight(BSTNode<int>* current){
+    BSTNode<int>* temp = current;
+    while(temp != nullptr && temp->right != nullptr){
+        temp = temp->right;
+    }
+    return temp;
+}
+
+bool treeMatchesVector(const vector<int> v, BSTNode<int>* root) {
+//    This is in-order ! Left, Middle, Right
+   int count = 0;
+   BSTNode<int>* current = root;
+   while (count < v.size() && current != nullptr){
+       BSTNode<int>* currentLeft = getLeft(current);
+       BSTNode<int>* currentMid = currentLeft->parent;
+       if (v[count] != currentLeft->value){
+           return false;
+       }
+       else {
+           count += 1;
+           if (v[count] != currentMid->value){
+               return false;
+           }
+           else {
+               count += 1;
+           }
+       }
+
+       BSTNode<int>* currentRight = currentMid->right;
+       if (currentRight != nullptr && currentRight->left == nullptr && currentRight->right == nullptr){
+           if (currentRight->value != v[count]){
+               return false;
+           }
+           else {
+               count += 1;
+               current = currentMid->parent;
+               if (current->value != v[count]){
+                   return false;
+               }
+               else {
+                   count += 1;
+                   current = current->right;
+               }
+           }
+       }
+   }
+   return true;
+
+}
+
+BSTNode<int>* recursiveGet(BSTNode<int>* current){
+    if (current->left == nullptr){
+        cout<<current->value<<endl;
+        cout<<current->parent->value<<endl;
+        cout<<current->parent->right->value<<endl;
+    }
+    else {
+        current = recursiveGet(current);
+    }
+}
+
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+
